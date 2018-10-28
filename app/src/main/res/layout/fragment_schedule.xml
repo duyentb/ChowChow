@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.view.main.view.ScheduleFragment">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:gravity="left"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/etxt_fromdate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Thời gian bắt đầu" />
+
+            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                android:id="@+id/cbbScheduleDay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Số Ngày"
+                android:background="@color/colorMain"
+                app:met_floatingLabel="normal" />
+
+            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                android:id="@+id/cbbCost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Chi phí (VNĐ)"
+                android:background="@color/colorMain"
+                app:met_floatingLabel="normal" />
+
+            <TextView android:id="@+id/link_login"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:textStyle="italic"
+                android:text="Sở thích du lịch"
+                android:textColor="@color/colorMain"
+                android:textSize="16dip"/>
+
+            <LinearLayout
+                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipPhongCanh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Phong cảnh" />
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipLichSu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Lịch sử" />
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipCau"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Cầu" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipBien"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Biển" />
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipAmThuc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Ẩm thực" />
+
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipCoffee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Café" />
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipSuoi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Suối" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipCongVienGiaiTri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Công viên giải trí" />
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipCongVienNuoc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Công viên nước" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipChupAnh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Chụp ảnh" />
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipChua"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Chùa" />
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipLuuNiem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Lưu niệm" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipDiSan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Di sản" />
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipMaoHiem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Mạo hiểm" />
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipMuaSam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Mua sắm" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.robertlevonyan.views.chip.Chip
+                    android:id="@+id/chipLangNghe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:mcv_selectable="true"
+                    app:mcv_selectedBackgroundColor="@color/colorMain"
+                    app:mcv_chipText="Làng nghề" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_add_schedule"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:padding="12dp"
+                android:background="#ff751a"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="Tạo lịch trình"/>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>
