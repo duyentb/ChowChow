@@ -2,10 +2,25 @@ package com.chowchow.os.chowchow.model;
 
 import java.io.Serializable;
 
-public class ToursModel  implements  Serializable {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+public class ToursModel implements Serializable {
     private int image_drawable;
-    private  String tourName;
-    private  String tourInfo;
+    private String tourName;
+    private String tourInfo;
+
+    @SerializedName("data")
+    @Expose
+    private ToursData toursData;
+
+    public ToursData getToursData() {
+        return toursData;
+    }
+
+    public void setToursData(ToursData toursData) {
+        this.toursData = toursData;
+    }
 
     public int getImage_drawable() {
         return image_drawable;

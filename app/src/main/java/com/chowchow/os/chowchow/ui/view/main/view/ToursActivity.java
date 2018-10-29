@@ -19,7 +19,7 @@ import com.chowchow.os.chowchow.ui.adapter.ToursAdapter;
 import java.util.ArrayList;
 
 public class ToursActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
-    public static final String TOUR_DETAIL_KEY = "tour";
+    public static final String TOUR_DETAIL_KEY = "data";
     private ListView listView;
     private SearchView editsearch;
     private ToursAdapter toursAdapter;
