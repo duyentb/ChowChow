@@ -9,12 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chowchow.os.chowchow.R;
-import com.chowchow.os.chowchow.model.ImageModel;
 import com.chowchow.os.chowchow.model.ToursModel;
-import com.chowchow.os.chowchow.ui.view.main.view.ToursActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.AttractionsActivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 
 public class ToursAdapter extends BaseAdapter {
@@ -62,7 +60,7 @@ public class ToursAdapter extends BaseAdapter {
             holder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.lv_tour_item, null, true);
+            convertView = inflater.inflate(R.layout.attractions_item, null, true);
 
             holder.tvname = (TextView) convertView.findViewById(R.id.name);
             holder.iv = (ImageView) convertView.findViewById(R.id.imgView);
@@ -82,13 +80,13 @@ public class ToursAdapter extends BaseAdapter {
     // Filter Class
     public void filter(String charText) {
         charText = charText.toLowerCase(Locale.getDefault());
-        ToursActivity.toursModelArrayList.clear();
+        //AttractionsActivity.toursModelArrayList.clear();
         if (charText.length() == 0) {
-            ToursActivity.toursModelArrayList.addAll(toursModelArrayList);
+            //AttractionsActivity.toursModelArrayList.addAll(toursModelArrayList);
         } else {
             for (ToursModel tm : toursModelArrayList) {
                 if (tm.getTourName().toLowerCase(Locale.getDefault()).contains(charText)) {
-                    ToursActivity.toursModelArrayList.add(tm);
+                    //AttractionsActivity.toursModelArrayList.add(tm);
                 }
             }
         }

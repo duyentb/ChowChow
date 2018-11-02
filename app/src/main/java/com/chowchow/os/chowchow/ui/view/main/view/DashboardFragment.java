@@ -9,7 +9,6 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.chowchow.os.chowchow.R;
 
@@ -75,7 +74,7 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(getActivity(), ToursActivity.class);
+                Intent intent = new Intent(getActivity(), AttractionsActivity.class);
                 startActivity(intent);
             }
         });

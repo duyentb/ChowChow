@@ -10,10 +10,8 @@ import android.widget.TextView;
 
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.model.ToursModel;
-import com.chowchow.os.chowchow.ui.view.main.view.ToursActivity;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class SuggestTourAdapter extends BaseAdapter {
     private Context context;

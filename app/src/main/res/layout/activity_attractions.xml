@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.chowchow.os.chowchow.ui.view.main.view.ToursActivity">
+    tools:context="com.chowchow.os.chowchow.ui.view.main.view.AttractionsActivity">
 
     <ImageView
         android:id="@+id/image_app"
@@ -15,19 +16,25 @@
         android:src="@drawable/app_name" />
 
     <SearchView
-        android:id="@+id/search"
+        android:id="@+id/search_attractions"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/image_app"
+        android:title="Search"
+        android:queryHint="Tìm kiếm"
         android:focusable="false"
-        android:focusableInTouchMode="true"
+        android:focusableInTouchMode="false"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView"
         android:iconifiedByDefault="false">
 
     </SearchView>
 
-    <ListView
-        android:id="@+id/listview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/search" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_attractions"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="5dp"
+        android:layout_below="@+id/search_attractions"/>
 </RelativeLayout>
