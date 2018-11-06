@@ -4,28 +4,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.chowchow.os.chowchow.ui.view.main.view.AttractionsActivity">
+    tools:context="com.chowchow.os.chowchow.ui.view.main.view.EventActivity">
 
     <ImageView
         android:id="@+id/image_app"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:layout_centerInParent="true"
         android:paddingTop="10dp"
         android:layout_alignParentTop="true"
         android:src="@drawable/app_name" />
 
-    <SearchView
-        android:id="@+id/search_attractions"
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/tv_event"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/image_app"
-        android:gravity="right"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="5dp"
+        android:text="SỰ KIỆN"
+        android:textColor="@color/colorMain"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <SearchView
+        android:id="@+id/search_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_event"
         android:title="Search"
         android:queryHint="Tìm kiếm"
+        android:layoutDirection="rtl"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:layoutDirection="rtl"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="android.support.v7.widget.SearchView"
         android:iconifiedByDefault="false">
@@ -33,15 +44,15 @@
     </SearchView>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_attractions"
+        android:id="@+id/list_event"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="5dp"
-        android:layout_below="@+id/search_attractions"/>
+        android:layout_below="@+id/search_event"/>
 
     <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/attr_loading_indicator"
+        android:id="@+id/loading_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

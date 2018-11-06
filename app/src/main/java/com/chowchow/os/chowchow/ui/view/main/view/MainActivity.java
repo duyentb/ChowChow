@@ -29,6 +29,7 @@ import java.security.NoSuchAlgorithmException;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
+    MapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,4 +138,5 @@ public class MainActivity extends AppCompatActivity {
 
         return key;
     }
+
 }

@@ -3,7 +3,9 @@ package com.chowchow.os.chowchow.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AttrImage {
+import java.io.Serializable;
+
+public class AttrImage implements Serializable {
 
     @SerializedName("attr_id")
     @Expose

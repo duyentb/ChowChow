@@ -68,8 +68,8 @@ public class DashboardFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        CardView oursCard = (CardView) view.findViewById(R.id.toursCardId);
-        oursCard.setOnClickListener(new View.OnClickListener()
+        CardView attractionsCard = (CardView) view.findViewById(R.id.card_attractions);
+        attractionsCard.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -78,6 +78,40 @@ public class DashboardFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        CardView restaurantCard = (CardView) view.findViewById(R.id.card_restaurant);
+        restaurantCard.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(getActivity(), RestaurantActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CardView shoppingCard = (CardView) view.findViewById(R.id.card_shopping);
+        shoppingCard.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(getActivity(), ShoppingActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CardView eventCard = (CardView) view.findViewById(R.id.card_event);
+        eventCard.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(getActivity(), EventActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 

@@ -1,22 +1,20 @@
 package com.chowchow.os.chowchow.model;
 
 import java.io.Serializable;
-import java.io.SerializablePermission;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Attractions implements Serializable {
-
-    @SerializedName("attr_id")
+public class Event implements Serializable {
+    @SerializedName("event_id")
     @Expose
-    private String attrId;
-    @SerializedName("attr_name")
+    private String eventId;
+    @SerializedName("event_name")
     @Expose
-    private String attrName;
-    @SerializedName("attr_address")
+    private String eventName;
+    @SerializedName("event_address")
     @Expose
-    private String attrAddress;
+    private String eventAddress;
     @SerializedName("lat")
     @Expose
     private String lat;
@@ -29,6 +27,9 @@ public class Attractions implements Serializable {
     @SerializedName("opening_time_end")
     @Expose
     private String openingTimeEnd;
+    @SerializedName("event_time")
+    @Expose
+    private String eventTime;
     @SerializedName("price")
     @Expose
     private String price;
@@ -39,28 +40,28 @@ public class Attractions implements Serializable {
     @Expose
     private List<AttrImage> attrImage = null;
 
-    public String getAttrId() {
-        return attrId;
+    public String getEventId() {
+        return eventId;
     }
 
-    public void setAttrId(String attrId) {
-        this.attrId = attrId;
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 
-    public String getAttrName() {
-        return attrName;
+    public String getEventName() {
+        return eventName;
     }
 
-    public void setAttrName(String attrName) {
-        this.attrName = attrName;
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 
-    public String getAttrAddress() {
-        return attrAddress;
+    public String getEventAddress() {
+        return eventAddress;
     }
 
-    public void setAttrAddress(String attrAddress) {
-        this.attrAddress = attrAddress;
+    public void setEventAddress(String eventAddress) {
+        this.eventAddress = eventAddress;
     }
 
     public String getLat() {
@@ -93,6 +94,14 @@ public class Attractions implements Serializable {
 
     public void setOpeningTimeEnd(String openingTimeEnd) {
         this.openingTimeEnd = openingTimeEnd;
+    }
+
+    public String getEventTime() {
+        return eventTime;
+    }
+
+    public void setEventTime(String eventTime) {
+        this.eventTime = eventTime;
     }
 
     public String getPrice() {

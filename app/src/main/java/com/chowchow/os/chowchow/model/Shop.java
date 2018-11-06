@@ -1,22 +1,20 @@
 package com.chowchow.os.chowchow.model;
 
 import java.io.Serializable;
-import java.io.SerializablePermission;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Attractions implements Serializable {
-
-    @SerializedName("attr_id")
+public class Shop implements Serializable {
+    @SerializedName("shop_id")
     @Expose
-    private String attrId;
-    @SerializedName("attr_name")
+    private String shopId;
+    @SerializedName("shop_name")
     @Expose
-    private String attrName;
-    @SerializedName("attr_address")
+    private String shopName;
+    @SerializedName("shop_address")
     @Expose
-    private String attrAddress;
+    private String shopAddress;
     @SerializedName("lat")
     @Expose
     private String lat;
@@ -38,29 +36,32 @@ public class Attractions implements Serializable {
     @SerializedName("attr_image")
     @Expose
     private List<AttrImage> attrImage = null;
+    @SerializedName("product")
+    @Expose
+    private List<Product> product = null;
 
-    public String getAttrId() {
-        return attrId;
+    public String getShopId() {
+        return shopId;
     }
 
-    public void setAttrId(String attrId) {
-        this.attrId = attrId;
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
     }
 
-    public String getAttrName() {
-        return attrName;
+    public String getShopName() {
+        return shopName;
     }
 
-    public void setAttrName(String attrName) {
-        this.attrName = attrName;
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 
-    public String getAttrAddress() {
-        return attrAddress;
+    public String getShopAddress() {
+        return shopAddress;
     }
 
-    public void setAttrAddress(String attrAddress) {
-        this.attrAddress = attrAddress;
+    public void setShopAddress(String shopAddress) {
+        this.shopAddress = shopAddress;
     }
 
     public String getLat() {
@@ -117,5 +118,13 @@ public class Attractions implements Serializable {
 
     public void setAttrImage(List<AttrImage> attrImage) {
         this.attrImage = attrImage;
+    }
+
+    public List<Product> getProduct() {
+        return product;
+    }
+
+    public void setProduct(List<Product> product) {
+        this.product = product;
     }
 }

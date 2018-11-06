@@ -9,11 +9,11 @@ public class TagsModel {
     @Expose
     private List<Tag> data = null;
 
-    public List<Tag> getData() {
+    public List<Tag> getTags() {
         return data;
     }
 
-    public void setData(List<Tag> data) {
+    public void setTags(List<Tag> data) {
         this.data = data;
     }
 }

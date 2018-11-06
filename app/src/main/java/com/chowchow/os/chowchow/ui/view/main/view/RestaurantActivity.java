@@ -12,9 +12,9 @@ import android.widget.SearchView;
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.api.ApiUtils;
 import com.chowchow.os.chowchow.api.APIService;
-import com.chowchow.os.chowchow.model.Attractions;
-import com.chowchow.os.chowchow.model.AttractionsModel;
-import com.chowchow.os.chowchow.ui.adapter.AttractionsAdapter;
+import com.chowchow.os.chowchow.model.Restaurant;
+import com.chowchow.os.chowchow.model.RestaurantModel;
+import com.chowchow.os.chowchow.ui.adapter.RestaurantAdapter;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -23,29 +23,29 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AttractionsActivity extends AppCompatActivity {
+public class RestaurantActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private SearchView editsearch;
     private AVLoadingIndicatorView avi;
-    private AttractionsAdapter mAdapter;
+    private RestaurantAdapter mAdapter;
     private APIService mService;
-    private ArrayList<Attractions> mArrayList;
+    private ArrayList<Restaurant> mArrayList;
 
-    public static final String ATTRACTIONS_DETAIL_KEY = "ATTRACTIONS";
+    public static final String RESTAURANT_DETAIL_KEY = "RESTAURANT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_attractions);
-
-        mService = ApiUtils.getAttractionsService();
+        setContentView(R.layout.activity_restaurant);
+        mService = ApiUtils.getRestaurantService();
 
         initViews();
 
-        loadAttractions();
+        loadRestaurant();
 
         // Locate the EditText in listview_main.xml
-        editsearch = (SearchView) findViewById(R.id.search_attractions);
+        editsearch = (SearchView) findViewById(R.id.search_restaurant);
+        editsearch.setIconified(false);
         editsearch.clearFocus();
         search(editsearch);
 
@@ -58,7 +58,7 @@ public class AttractionsActivity extends AppCompatActivity {
         });
 
         // Init loading animation
-        avi = (AVLoadingIndicatorView) findViewById(R.id.attr_loading_indicator);
+        avi = (AVLoadingIndicatorView) findViewById(R.id.rest_loading_indicator);
     }
 
     @Override
@@ -66,8 +66,8 @@ public class AttractionsActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private void initViews() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.list_attractions);
+    private void initViews(){
+        mRecyclerView = (RecyclerView)findViewById(R.id.list_restaurant);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -94,38 +94,38 @@ public class AttractionsActivity extends AppCompatActivity {
         });
     }
 
-    public void loadAttractions() {
+    public void loadRestaurant() {
         // Show loading indicator
 //        startLoadingAnimation();
 
-        mService.getAttractions().enqueue(new Callback<AttractionsModel>() {
+        mService.getRestaurant().enqueue(new Callback<RestaurantModel>() {
             @Override
-            public void onResponse(Call<AttractionsModel> call, Response<AttractionsModel> response) {
+            public void onResponse(Call<RestaurantModel> call, Response<RestaurantModel> response) {
 
-                if (response.isSuccessful()) {
-                    AttractionsModel jsonResponse = response.body();
-                    mArrayList = new ArrayList<Attractions>(jsonResponse.getListAttractions());
-                    mAdapter = new AttractionsAdapter(mArrayList);
+                if(response.isSuccessful()) {
+                    RestaurantModel jsonResponse = response.body();
+                    mArrayList = new ArrayList<>(jsonResponse.getListRestaurant());
+                    mAdapter = new RestaurantAdapter(mArrayList);
                     mRecyclerView.setAdapter(mAdapter);
-                    Log.d("AttractionsActivity", "posts loaded from API");
+
+                    // Hide loading indicator
+                    stopLoadingAnimation();
+                    Log.d("RestaurantActivity", "posts loaded from API");
                 } else {
-                    int statusCode = response.code();
+                    int statusCode  = response.code();
+                    stopLoadingAnimation();
                     eventBack();
-                    Log.d("AttractionsActivity", "Call API response code " + statusCode);
+                    Log.d("RestaurantActivity", "Call API response code " + statusCode);
                     // handle request errors depending on status code
                 }
-
-                // Hide loading indicator
-                stopLoadingAnimation();
             }
 
             @Override
-            public void onFailure(Call<AttractionsModel> call, Throwable t) {
-                // Hide loading indicator
+            public void onFailure(Call<RestaurantModel> call, Throwable t) {
                 stopLoadingAnimation();
                 eventBack();
-                Log.d("Error", t.getMessage());
-                Log.d("AttractionsActivity", "error loading from API");
+                Log.d("Error",t.getMessage());
+                Log.d("RestaurantActivity", "error loading from API");
 
             }
         });
@@ -157,4 +157,5 @@ public class AttractionsActivity extends AppCompatActivity {
             }
         });
     }
+
 }

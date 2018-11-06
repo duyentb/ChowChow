@@ -1,22 +1,20 @@
 package com.chowchow.os.chowchow.model;
 
 import java.io.Serializable;
-import java.io.SerializablePermission;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Attractions implements Serializable {
-
-    @SerializedName("attr_id")
+public class Restaurant implements Serializable {
+    @SerializedName("restaurant_id")
     @Expose
-    private String attrId;
-    @SerializedName("attr_name")
+    private String restaurantId;
+    @SerializedName("restaurant_name")
     @Expose
-    private String attrName;
-    @SerializedName("attr_address")
+    private String restaurantName;
+    @SerializedName("restaurant_address")
     @Expose
-    private String attrAddress;
+    private String restaurantAddress;
     @SerializedName("lat")
     @Expose
     private String lat;
@@ -38,29 +36,32 @@ public class Attractions implements Serializable {
     @SerializedName("attr_image")
     @Expose
     private List<AttrImage> attrImage = null;
+    @SerializedName("specialties")
+    @Expose
+    private List<Specialty> specialties = null;
 
-    public String getAttrId() {
-        return attrId;
+    public String getRestaurantId() {
+        return restaurantId;
     }
 
-    public void setAttrId(String attrId) {
-        this.attrId = attrId;
+    public void setRestaurantId(String restaurantId) {
+        this.restaurantId = restaurantId;
     }
 
-    public String getAttrName() {
-        return attrName;
+    public String getRestaurantName() {
+        return restaurantName;
     }
 
-    public void setAttrName(String attrName) {
-        this.attrName = attrName;
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 
-    public String getAttrAddress() {
-        return attrAddress;
+    public String getRestaurantAddress() {
+        return restaurantAddress;
     }
 
-    public void setAttrAddress(String attrAddress) {
-        this.attrAddress = attrAddress;
+    public void setRestaurantAddress(String restaurantAddress) {
+        this.restaurantAddress = restaurantAddress;
     }
 
     public String getLat() {
@@ -117,5 +118,13 @@ public class Attractions implements Serializable {
 
     public void setAttrImage(List<AttrImage> attrImage) {
         this.attrImage = attrImage;
+    }
+
+    public List<Specialty> getSpecialties() {
+        return specialties;
+    }
+
+    public void setSpecialties(List<Specialty> specialties) {
+        this.specialties = specialties;
     }
 }

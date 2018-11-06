@@ -19,7 +19,7 @@
         android:id="@+id/frame_dashboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:layout_below="@id/frame_slider"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

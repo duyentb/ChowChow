@@ -3,7 +3,9 @@ package com.chowchow.os.chowchow.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Tag {
+import java.io.Serializable;
+
+public class Tag implements Serializable {
     @SerializedName("tag_id")
     @Expose
     private String tagId;
