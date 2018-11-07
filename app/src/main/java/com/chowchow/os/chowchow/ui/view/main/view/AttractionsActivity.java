@@ -1,5 +1,6 @@
 package com.chowchow.os.chowchow.ui.view.main.view;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.widget.SearchView;
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.api.ApiUtils;
 import com.chowchow.os.chowchow.api.APIService;
+import com.chowchow.os.chowchow.callback.ItemClickListener;
 import com.chowchow.os.chowchow.model.Attractions;
 import com.chowchow.os.chowchow.model.AttractionsModel;
 import com.chowchow.os.chowchow.ui.adapter.AttractionsAdapter;
@@ -105,7 +107,14 @@ public class AttractionsActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     AttractionsModel jsonResponse = response.body();
                     mArrayList = new ArrayList<Attractions>(jsonResponse.getListAttractions());
-                    mAdapter = new AttractionsAdapter(mArrayList);
+                    mAdapter = new AttractionsAdapter(mArrayList, new ItemClickListener() {
+                        @Override
+                        public void onClick(View view, int position, boolean isLongClick) {
+                            Intent intent = new Intent(view.getContext(), DirectionActivity.class);
+                            intent.putExtra(AttractionsActivity.ATTRACTIONS_DETAIL_KEY, mArrayList.get(position));
+                            view.getContext().startActivity(intent);
+                        }
+                    });
                     mRecyclerView.setAdapter(mAdapter);
                     Log.d("AttractionsActivity", "posts loaded from API");
                 } else {

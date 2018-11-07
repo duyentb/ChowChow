@@ -1,6 +1,5 @@
 package com.chowchow.os.chowchow.ui.adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatButton;
@@ -25,11 +24,12 @@ import java.util.ArrayList;
 public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.ViewHolder> implements Filterable {
     private ArrayList<Attractions> mArrayList;
     private ArrayList<Attractions> mFilteredList;
+    private ItemClickListener itemClickListener;
 
-
-    public AttractionsAdapter(ArrayList<Attractions> arrayList) {
+    public AttractionsAdapter(ArrayList<Attractions> arrayList, ItemClickListener listener) {
         mArrayList = arrayList;
         mFilteredList = arrayList;
+        itemClickListener = listener;
     }
 
     @NonNull
@@ -40,7 +40,7 @@ public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         String imgURL = mFilteredList.get(position).getAttrImage().get(0).getLink();
         Picasso.get().load(imgURL).centerCrop().resize(360, 270).into(viewHolder.iv_attr_image);
         viewHolder.tv_attr_name.setText(mFilteredList.get(position).getAttrName());
@@ -53,6 +53,13 @@ public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.
                 Intent intent = new Intent(view.getContext(), AttractionsDetailActivity.class);
                 intent.putExtra(AttractionsActivity.ATTRACTIONS_DETAIL_KEY, mFilteredList.get(position));
                 view.getContext().startActivity(intent);
+            }
+        });
+
+        viewHolder.btn_guide_map.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                itemClickListener.onClick(v, position, false);
             }
         });
     }
@@ -135,5 +142,6 @@ public class AttractionsAdapter extends RecyclerView.Adapter<AttractionsAdapter.
             itemClickListener.onClick(v, getAdapterPosition(),true);
             return true;
         }
+
     }
 }

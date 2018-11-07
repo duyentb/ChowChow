@@ -65,6 +65,7 @@
         <activity android:name=".ui.view.main.view.EventActivity" />
         <activity android:name=".ui.view.main.view.AttractionsDetailActivity" />
         <activity android:name=".ui.view.main.view.RestaurantDetailActivity" />
+        <activity android:name=".ui.view.main.view.DirectionActivity"></activity>
     </application>
 
 </manifest>
