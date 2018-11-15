@@ -15,6 +15,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+        }
     }
     buildToolsVersion '28.0.3'
 }
@@ -37,6 +40,7 @@ dependencies {
     implementation 'com.robertlevonyan.view:MaterialChipView:1.2.4'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
     implementation 'io.reactivex:rxandroid:1.2.1'

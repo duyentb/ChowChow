@@ -3,7 +3,10 @@ package com.chowchow.os.chowchow.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class TourDetail {
+import java.io.Serializable;
+import java.util.List;
+
+public class TourDetail implements Serializable {
 
     @SerializedName("day")
     @Expose
@@ -50,6 +53,9 @@ public class TourDetail {
     @SerializedName("time")
     @Expose
     private String time;
+    @SerializedName("attr_image")
+    @Expose
+    private List<AttrImage> attrImage = null;
 
     public String getDay() {
         return day;
@@ -169,6 +175,14 @@ public class TourDetail {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public List<AttrImage> getAttrImage() {
+        return attrImage;
+    }
+
+    public void setAttrImage(List<AttrImage> attrImage) {
+        this.attrImage = attrImage;
     }
 
 }

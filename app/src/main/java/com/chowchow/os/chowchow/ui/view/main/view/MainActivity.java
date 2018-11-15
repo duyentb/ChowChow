@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.helper.BottomNavigationViewHelper;
@@ -29,6 +30,7 @@ import java.security.NoSuchAlgorithmException;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
+    private ImageView iv_back;
     MapFragment mapFragment;
 
     @Override
@@ -46,14 +48,24 @@ public class MainActivity extends AppCompatActivity {
         imgAppName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            }
+        });
+
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_back.setVisibility(View.GONE);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
 
-        printKeyHash(this);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
+//        printKeyHash(this);
+//        FacebookSdk.sdkInitialize(getApplicationContext());
+//        AppEventsLogger.activateApp(this);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -62,30 +74,34 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment;
-            FrameLayout chowchow = findViewById(R.id.frame_app);
+            RelativeLayout chowchow = findViewById(R.id.main_header);
 
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     //mTextMessage.setText(R.string.title_home);
                     chowchow.setVisibility(View.VISIBLE);
+                    iv_back.setVisibility(View.GONE);
                     fragment = new HomeFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_schedule:
                     //mTextMessage.setText(R.string.title_schedule);
                     chowchow.setVisibility(View.VISIBLE);
+                    iv_back.setVisibility(View.VISIBLE);
                     fragment = new ScheduleFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_tour:
                     //mTextMessage.setText(R.string.title_tour);
                     chowchow.setVisibility(View.VISIBLE);
+                    iv_back.setVisibility(View.VISIBLE);
                     fragment = new SuggestTourFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_map:
                     //mTextMessage.setText(R.string.title_map);
                     chowchow.setVisibility(View.VISIBLE);
+                    iv_back.setVisibility(View.VISIBLE);
                     fragment = new MapFragment();
                     loadFragment(fragment);
                     return true;

@@ -26,6 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AttractionsActivity extends AppCompatActivity {
+    private ImageView iv_back, imgAppName;
     private RecyclerView mRecyclerView;
     private SearchView editsearch;
     private AVLoadingIndicatorView avi;
@@ -51,11 +52,20 @@ public class AttractionsActivity extends AppCompatActivity {
         editsearch.clearFocus();
         search(editsearch);
 
-        ImageView imgAppName = (ImageView) findViewById(R.id.image_app);
+        imgAppName = (ImageView) findViewById(R.id.image_app);
         imgAppName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 

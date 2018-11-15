@@ -38,6 +38,9 @@
 
     <color name="black_overlay">#66000000</color>
 
+    <color name="oddPanelColor">#e6ac00</color>
+    <color name="evenPanelColor">#4b830d</color>
+
     <!-- dots inactive colors -->
     <color name="dot_dark_screen1">#d1395c</color>
     <color name="dot_dark_screen2">#14a895</color>

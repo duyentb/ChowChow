@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +20,24 @@ import android.widget.TextView;
 import android.text.Html;
 
 import com.chowchow.os.chowchow.R;
+import com.chowchow.os.chowchow.api.APIService;
+import com.chowchow.os.chowchow.api.ApiUtils;
+import com.chowchow.os.chowchow.model.AttrImage;
 import com.chowchow.os.chowchow.model.ImageModel;
+import com.chowchow.os.chowchow.model.Tour;
+import com.chowchow.os.chowchow.model.TourModel;
 import com.chowchow.os.chowchow.ui.adapter.SlidingImage_Adapter;
+import com.chowchow.os.chowchow.ui.adapter.SuggestTourAdapter;
 import com.viewpagerindicator.CirclePageIndicator;
 
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.support.v4.content.ContextCompat.getSystemService;
 
@@ -45,7 +56,6 @@ public class IntroSliderFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
     private String mParam2;
     private ViewPager viewPager;
     private LinearLayout dotsLayout;
@@ -55,7 +65,10 @@ public class IntroSliderFragment extends Fragment {
     private static ViewPager mPager;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
-    private ArrayList<ImageModel> imageModelArrayList;
+    private ArrayList<AttrImage> imageModelArrayList;
+    private SlidingImage_Adapter mAdapter;
+    private APIService mService;
+    private ArrayList<Tour> mArrayList;
 
     private int[] myImageList = new int[]{R.drawable.cau_rong_1, R.drawable.cau_song_han1,
             R.drawable.ngu_hanh_son,R.drawable.dhc_marina};
@@ -66,20 +79,12 @@ public class IntroSliderFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment IntroSliderFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
-    public static IntroSliderFragment newInstance(String param1, String param2) {
+    public static IntroSliderFragment newInstance(ArrayList<Tour> param) {
         IntroSliderFragment fragment = new IntroSliderFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable("Param1", param);
         fragment.setArguments(args);
         return fragment;
     }
@@ -88,8 +93,7 @@ public class IntroSliderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mArrayList = (ArrayList<Tour>) getArguments().getSerializable("Param1");
         }
     }
 
@@ -97,33 +101,50 @@ public class IntroSliderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_intro_slider, container, false);
+        View view = inflater.inflate(R.layout.fragment_intro_slider, container, false);
+
+        mService = ApiUtils.getToursService();
+
+        init(view);
+
+        return view;
     }
 
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        imageModelArrayList = new ArrayList<>();
-        imageModelArrayList = populateList();
 
-        init(view);
-    }
-    private ArrayList<ImageModel> populateList(){
 
-        ArrayList<ImageModel> list = new ArrayList<>();
-
-        for(int i = 0; i < myImageList.length; i++){
-            ImageModel imageModel = new ImageModel();
-            imageModel.setImage_drawable(myImageList[i]);
-            list.add(imageModel);
-        }
-
-        return list;
     }
 
     private void init(View view) {
         mPager = (ViewPager) view.findViewById(R.id.vpPager);
-        mPager.setAdapter(new SlidingImage_Adapter(getActivity(),imageModelArrayList));
+//        mService.getTour().enqueue(new Callback<TourModel>() {
+//
+//            @Override
+//            public void onResponse(Call<TourModel> call, Response<TourModel> response) {
+//                if (response.isSuccessful()) {
+//                    TourModel jsonResponse = response.body();
+//                    mArrayList = new ArrayList<Tour>(jsonResponse.getData());
+//                    Log.d("IntroSliderFragment", "posts loaded from API");
+//                } else {
+//                    int statusCode = response.code();
+//                    Log.d("IntroSliderFragment", "Call API response code " + statusCode);
+//                    // handle request errors depending on status code
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<TourModel> call, Throwable t) {
+//                Log.d("Error", t.getMessage());
+//                Log.d("IntroSliderFragment", "error loading from API");
+//
+//            }
+//        });
+
+        mAdapter = new SlidingImage_Adapter(getActivity(), mArrayList);
+        mPager.setAdapter(mAdapter);
 
         CirclePageIndicator indicator = (CirclePageIndicator)
                 view.findViewById(R.id.indicator);
@@ -135,7 +156,11 @@ public class IntroSliderFragment extends Fragment {
         //Set circle indicator radius
         indicator.setRadius(5 * density);
 
-        NUM_PAGES = imageModelArrayList.size();
+        //NUM_PAGES = mArrayList.size();
+        NUM_PAGES = 0;
+        if (NUM_PAGES > 5) {
+            NUM_PAGES = 5;
+        }
 
         // Auto start of viewpager
         final Handler handler = new Handler();
@@ -153,7 +178,7 @@ public class IntroSliderFragment extends Fragment {
             public void run() {
                 handler.post(Update);
             }
-        }, 3000, 3000);
+        }, 5000, 5000);
 
         // Pager listener over indicator
         indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -176,6 +201,14 @@ public class IntroSliderFragment extends Fragment {
         });
 
     }
+
+    public void loadTour() {
+        // Show loading indicator
+//        startLoadingAnimation();
+
+
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

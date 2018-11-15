@@ -13,9 +13,8 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_logo_36dp"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <uses-library
@@ -65,7 +64,8 @@
         <activity android:name=".ui.view.main.view.EventActivity" />
         <activity android:name=".ui.view.main.view.AttractionsDetailActivity" />
         <activity android:name=".ui.view.main.view.RestaurantDetailActivity" />
-        <activity android:name=".ui.view.main.view.DirectionActivity"></activity>
+        <activity android:name=".ui.view.main.view.DirectionActivity" />
+        <activity android:name=".ui.view.main.view.TourDayDetailActivity"></activity>
     </application>
 
 </manifest>

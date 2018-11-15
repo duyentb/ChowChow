@@ -1,5 +1,6 @@
 package com.chowchow.os.chowchow.ui.view.main.view;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ShoppingActivity extends AppCompatActivity {
+    private ImageView iv_back, imgAppName;
     private RecyclerView mRecyclerView;
     private SearchView editsearch;
     private AVLoadingIndicatorView avi;
@@ -48,11 +50,20 @@ public class ShoppingActivity extends AppCompatActivity {
         editsearch.clearFocus();
         search(editsearch);
 
-        ImageView imgAppName = (ImageView) findViewById(R.id.image_app);
+        imgAppName = (ImageView) findViewById(R.id.image_app);
         imgAppName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 
@@ -95,7 +106,7 @@ public class ShoppingActivity extends AppCompatActivity {
 
     public void loadShopping() {
         // Show loading indicator
-        startLoadingAnimation();
+        //startLoadingAnimation();
 
         mService.getShopping().enqueue(new Callback<ShoppingModel>() {
             @Override

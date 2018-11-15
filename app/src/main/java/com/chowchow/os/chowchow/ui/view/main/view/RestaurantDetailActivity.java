@@ -1,9 +1,11 @@
 package com.chowchow.os.chowchow.ui.view.main.view;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +21,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class RestaurantDetailActivity extends AppCompatActivity {
-    private ImageView iv_rest_image;
+    private ImageView iv_rest_image, iv_back, imgAppName;
     private TextView tv_rest_name, tv_rest_address, tv_working_time, tv_rest_detail;
     private RecyclerView rvAttrImage, rvSpecialty;
     private AttrImageAdapter attrImageAdapter;
@@ -31,6 +33,23 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_detail);
+
+        imgAppName = (ImageView) findViewById(R.id.image_app);
+        imgAppName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         // Fetch views
         iv_rest_image = (ImageView) findViewById(R.id.iv_rest_image);

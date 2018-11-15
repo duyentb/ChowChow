@@ -254,7 +254,7 @@
                 android:background="#ff751a"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:text="Tạo lịch trình"/>
+                android:text="Tìm lịch trình"/>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

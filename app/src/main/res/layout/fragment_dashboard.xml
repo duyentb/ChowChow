@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#fcfcfc"
-    android:gravity="center"
     android:orientation="vertical"
+    android:gravity="center"
     android:padding="5dp"
     tools:context=".ui.view.main.view.DashboardFragment">
 
@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:gravity="center"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <android.support.v7.widget.CardView
@@ -108,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Ăn uống"
+                    android:text="Ẩm thực"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -121,6 +122,7 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:gravity="center"
+        android:layout_marginBottom="15dp"
         android:orientation="horizontal">
 
         <android.support.v7.widget.CardView

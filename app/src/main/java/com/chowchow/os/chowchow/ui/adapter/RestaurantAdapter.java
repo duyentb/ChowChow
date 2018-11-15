@@ -28,10 +28,12 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     private Context context;
     private ArrayList<Restaurant> mArrayList;
     private ArrayList<Restaurant> mFilteredList;
+    private ItemClickListener itemClickListener;
 
-    public RestaurantAdapter(ArrayList<Restaurant> arrayList) {
+    public RestaurantAdapter(ArrayList<Restaurant> arrayList, ItemClickListener listener) {
         mArrayList = arrayList;
         mFilteredList = arrayList;
+        itemClickListener = listener;
     }
 
     @NonNull
@@ -42,7 +44,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RestaurantAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull RestaurantAdapter.ViewHolder viewHolder, final int position) {
         String imgURL = mFilteredList.get(position).getAttrImage().get(0).getLink();
         Picasso.get().load(imgURL).centerCrop().resize(360, 270).into(viewHolder.iv_restaurant_image);
         viewHolder.tv_restaurant_name.setText(mFilteredList.get(position).getRestaurantName());
@@ -55,6 +57,13 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                 Intent intent = new Intent(view.getContext(), RestaurantDetailActivity.class);
                 intent.putExtra(RestaurantActivity.RESTAURANT_DETAIL_KEY, mFilteredList.get(position));
                 view.getContext().startActivity(intent);
+            }
+        });
+
+        viewHolder.btn_guide_map.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                itemClickListener.onClick(v, position, false);
             }
         });
     }

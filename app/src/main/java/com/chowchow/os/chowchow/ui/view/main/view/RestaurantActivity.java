@@ -1,5 +1,6 @@
 package com.chowchow.os.chowchow.ui.view.main.view;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,8 +13,10 @@ import android.widget.SearchView;
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.api.ApiUtils;
 import com.chowchow.os.chowchow.api.APIService;
+import com.chowchow.os.chowchow.callback.ItemClickListener;
 import com.chowchow.os.chowchow.model.Restaurant;
 import com.chowchow.os.chowchow.model.RestaurantModel;
+import com.chowchow.os.chowchow.ui.adapter.AttractionsAdapter;
 import com.chowchow.os.chowchow.ui.adapter.RestaurantAdapter;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -24,6 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RestaurantActivity extends AppCompatActivity {
+    private ImageView iv_back, imgAppName;
     private RecyclerView mRecyclerView;
     private SearchView editsearch;
     private AVLoadingIndicatorView avi;
@@ -49,11 +53,20 @@ public class RestaurantActivity extends AppCompatActivity {
         editsearch.clearFocus();
         search(editsearch);
 
-        ImageView imgAppName = (ImageView) findViewById(R.id.image_app);
+        imgAppName = (ImageView) findViewById(R.id.image_app);
         imgAppName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 
@@ -105,7 +118,14 @@ public class RestaurantActivity extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     RestaurantModel jsonResponse = response.body();
                     mArrayList = new ArrayList<>(jsonResponse.getListRestaurant());
-                    mAdapter = new RestaurantAdapter(mArrayList);
+                    mAdapter = new RestaurantAdapter(mArrayList, new ItemClickListener() {
+                        @Override
+                        public void onClick(View view, int position, boolean isLongClick) {
+                            Intent intent = new Intent(view.getContext(), DirectionActivity.class);
+                            intent.putExtra(RestaurantActivity.RESTAURANT_DETAIL_KEY, mArrayList.get(position));
+                            view.getContext().startActivity(intent);
+                        }
+                    });
                     mRecyclerView.setAdapter(mAdapter);
 
                     // Hide loading indicator

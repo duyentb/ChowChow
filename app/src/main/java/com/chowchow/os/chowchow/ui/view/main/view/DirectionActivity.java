@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -14,9 +15,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +27,7 @@ import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.callback.DirectionFinderListener;
 import com.chowchow.os.chowchow.helper.DirectionFinder;
 import com.chowchow.os.chowchow.model.Attractions;
+import com.chowchow.os.chowchow.model.Restaurant;
 import com.chowchow.os.chowchow.model.Route;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -49,7 +53,6 @@ import java.util.List;
 public class DirectionActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener, DirectionFinderListener {
-
     SupportMapFragment locationMap;
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
@@ -61,18 +64,49 @@ public class DirectionActivity extends FragmentActivity implements OnMapReadyCal
     private List<Polyline> polylinePaths = new ArrayList<>();
     private ProgressDialog progressDialog;
     private Attractions attractions;
+    private Restaurant restaurant;
     private String latAttractions;
     private String lngAttractions;
     private Button btnFindPath;
+    private ImageView iv_back, imgAppName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_direction);
+
+        imgAppName = (ImageView) findViewById(R.id.image_app);
+        imgAppName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         // Use the attractions to populate the data into our views
         attractions = (Attractions) getIntent().getSerializableExtra(AttractionsActivity.ATTRACTIONS_DETAIL_KEY);
-        latAttractions = attractions.getLat();
-        lngAttractions = attractions.getLng();
+        restaurant = (Restaurant) getIntent().getSerializableExtra(RestaurantActivity.RESTAURANT_DETAIL_KEY);
+
+        if (attractions != null) {
+            latAttractions = attractions.getLat();
+            lngAttractions = attractions.getLng();
+            Log.d("DuyenTB","Attractions");
+        } else if (restaurant != null) {
+            latAttractions = restaurant.getLat();
+            lngAttractions = restaurant.getLng();
+            Log.d("DuyenTB","Restaurant");
+        }
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         locationMap = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_direction);
@@ -298,7 +332,8 @@ public class DirectionActivity extends FragmentActivity implements OnMapReadyCal
         destinationMarkers = new ArrayList<>();
 
         mGoogleMap.clear();
-
+        String title = "";
+        String snippet = "";
         for (Route route : routes) {
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 16));
             ((TextView) findViewById(R.id.tvDuration)).setText(route.duration.text);
@@ -307,9 +342,18 @@ public class DirectionActivity extends FragmentActivity implements OnMapReadyCal
             originMarkers.add(mGoogleMap.addMarker(new MarkerOptions()
                     .title(route.startAddress)
                     .position(route.startLocation)));
+
+            if (attractions != null) {
+                title = attractions.getAttrName();
+                snippet = attractions.getAttrAddress();
+            } else if (restaurant != null) {
+                title = restaurant.getRestaurantName();
+                snippet = restaurant.getRestaurantAddress();
+            }
+
             destinationMarkers.add(mGoogleMap.addMarker(new MarkerOptions()
-                    .title(attractions.getAttrName())
-                    .snippet(attractions.getAttrAddress())
+                    .title(title)
+                    .snippet(snippet)
                     .position(route.endLocation)));
 
             PolylineOptions polylineOptions = new PolylineOptions().

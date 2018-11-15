@@ -8,20 +8,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.chowchow.os.chowchow.model.AttrImage;
 import com.chowchow.os.chowchow.model.ImageModel;
 import com.chowchow.os.chowchow.R;
+import com.chowchow.os.chowchow.model.Tour;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class SlidingImage_Adapter extends PagerAdapter {
-    private ArrayList<ImageModel> imageModelArrayList;
+    private ArrayList<Tour> mArrayList;
     private LayoutInflater inflater;
     private Context context;
 
 
-    public SlidingImage_Adapter(Context context, ArrayList<ImageModel> imageModelArrayList) {
+    public SlidingImage_Adapter(Context context, ArrayList<Tour> mArrayList) {
         this.context = context;
-        this.imageModelArrayList = imageModelArrayList;
+        this.mArrayList = mArrayList;
         inflater = LayoutInflater.from(context);
     }
 
@@ -32,7 +35,9 @@ public class SlidingImage_Adapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return imageModelArrayList.size();
+        int i = 0;
+        //i = mArrayList.size();
+        return i;
     }
 
     @Override
@@ -40,11 +45,9 @@ public class SlidingImage_Adapter extends PagerAdapter {
         View imageLayout = inflater.inflate(R.layout.slidingimages_layout, view, false);
 
         assert imageLayout != null;
-        final ImageView imageView = (ImageView) imageLayout
-                .findViewById(R.id.image);
-
-        //imageModelArrayList.get(position).getImage_drawable()
-        imageView.setImageResource(imageModelArrayList.get(position).getImage_drawable());
+        final ImageView imageView = (ImageView) imageLayout.findViewById(R.id.image);
+        String imgURL = mArrayList.get(position).getAttrImage().get(0).getLink();
+        Picasso.get().load(imgURL).centerCrop().resize(360, 270).into(imageView);
 
         view.addView(imageLayout, 0);
 

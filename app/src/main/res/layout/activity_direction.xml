@@ -6,18 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".ui.view.main.view.DirectionActivity">
 
-    <ImageView
-        android:id="@+id/image_app"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_centerInParent="true"
-        android:paddingTop="10dp"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/app_name" />
+    <RelativeLayout
+        android:id="@+id/main_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_back_24dp"
+            android:layout_centerVertical="true"
+            />
+
+        <ImageView
+            android:id="@+id/image_app"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/app_name" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ln_header"
-        android:layout_below="@+id/image_app"
+        android:layout_below="@+id/main_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

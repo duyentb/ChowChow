@@ -3,7 +3,10 @@ package com.chowchow.os.chowchow.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class TourInfo {
+import java.io.Serializable;
+import java.util.List;
+
+public class TourInfo implements Serializable {
 
     @SerializedName("tour_id")
     @Expose
@@ -14,12 +17,18 @@ public class TourInfo {
     @SerializedName("tour_duration")
     @Expose
     private String tourDuration;
+    @SerializedName("tour_day_start")
+    @Expose
+    private String tourDayStart;
     @SerializedName("num_attr")
     @Expose
     private String numAttr;
     @SerializedName("tour_budget")
     @Expose
     private String tourBudget;
+    @SerializedName("tour_favorite")
+    @Expose
+    private List<Tag> tourFavorite = null;
 
     public String getTourId() {
         return tourId;
@@ -35,6 +44,14 @@ public class TourInfo {
 
     public void setTourName(String tourName) {
         this.tourName = tourName;
+    }
+
+    public String getTourDayStart() {
+        return tourDayStart;
+    }
+
+    public void setTourDayStart(String tourDayStart) {
+        this.tourDayStart = tourDayStart;
     }
 
     public String getTourDuration() {
@@ -59,6 +76,14 @@ public class TourInfo {
 
     public void setTourBudget(String tourBudget) {
         this.tourBudget = tourBudget;
+    }
+
+    public List<Tag> getTourFavorite() {
+        return tourFavorite;
+    }
+
+    public void setTourFavorite(List<Tag> tourFavorite) {
+        this.tourFavorite = tourFavorite;
     }
 
 }

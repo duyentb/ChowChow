@@ -1,5 +1,6 @@
 package com.chowchow.os.chowchow.ui.view.main.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import com.chowchow.os.chowchow.api.APIService;
 import com.chowchow.os.chowchow.model.Event;
 import com.chowchow.os.chowchow.model.EventModel;
 import com.chowchow.os.chowchow.ui.adapter.EventAdapter;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 
@@ -23,11 +25,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EventActivity extends AppCompatActivity {
+    private ImageView iv_back, imgAppName;
     private RecyclerView mRecyclerView;
     private SearchView editsearch;
     private EventAdapter mAdapter;
     private APIService mService;
     private ArrayList<Event> mArrayList;
+    private AVLoadingIndicatorView avi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +49,25 @@ public class EventActivity extends AppCompatActivity {
         editsearch.clearFocus();
         search(editsearch);
 
-        ImageView imgAppName = (ImageView) findViewById(R.id.image_app);
+        imgAppName = (ImageView) findViewById(R.id.image_app);
         imgAppName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
+
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        // Init loading animation
+        avi = (AVLoadingIndicatorView) findViewById(R.id.event_loading_indicator);
     }
 
     @Override
@@ -100,16 +116,50 @@ public class EventActivity extends AppCompatActivity {
                     Log.d("EventActivity", "posts loaded from API");
                 }else {
                     int statusCode = response.code();
+                    eventBack();
                     Log.d("EventActivity", "Call API response code " + statusCode);
                     // handle request errors depending on status code
                 }
+
+                // Hide loading indicator
+                stopLoadingAnimation();
             }
 
             @Override
             public void onFailure(Call<EventModel> call, Throwable t) {
+                // Hide loading indicator
+                stopLoadingAnimation();
+                eventBack();
                 Log.d("Error",t.getMessage());
                 Log.d("EventActivity", "error loading from API");
 
+            }
+        });
+    }
+
+    public void startLoadingAnimation() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                avi.smoothToShow();
+            }
+        });
+    }
+
+    public void stopLoadingAnimation() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                avi.smoothToHide();
+            }
+        });
+    }
+
+    public void eventBack() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                onBackPressed();
             }
         });
     }

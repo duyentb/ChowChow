@@ -1,59 +1,63 @@
 package com.chowchow.os.chowchow.ui.view.main.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.chowchow.os.chowchow.R;
-import com.chowchow.os.chowchow.model.ToursModel;
+import com.chowchow.os.chowchow.api.APIService;
+import com.chowchow.os.chowchow.api.ApiUtils;
+import com.chowchow.os.chowchow.callback.ItemClickListener;
+import com.chowchow.os.chowchow.model.Attractions;
+import com.chowchow.os.chowchow.model.AttractionsModel;
+import com.chowchow.os.chowchow.model.Tour;
+import com.chowchow.os.chowchow.model.TourModel;
+import com.chowchow.os.chowchow.ui.adapter.AttractionsAdapter;
 import com.chowchow.os.chowchow.ui.adapter.SuggestTourAdapter;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SuggestTourFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SuggestTourFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SuggestTourFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    public static final String SUGGEST_TOUR_DETAIL_KEY = "SUGGEST_TOUR";
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private ListView listView;
     private SuggestTourAdapter suggestTourAdapter;
-    public static ArrayList<ToursModel> toursModelArrayList = new ArrayList<ToursModel>();
-    private int[] myImageList = new int[]{R.drawable.ngu_hanh_son, R.drawable.cau_rong_1, R.drawable.ngu_hanh_son, R.drawable.cau_rong_1};
-    private String[] myImageNameList = new String[]{"Ngũ Hành Sơn", "Cầu Rồng", "Ngũ Hành Sơn", "Cầu Rồng"};
-    private String[] tourInfoList = new String[]{"Tour 1 Ngày", "Tour 2 Ngày 1 Đêm", "Tour 3 Ngày 2 Đêm", "Tour 1 Ngày"};
+    private RecyclerView mRecyclerView;
+    private SearchView editsearch;
+    private AVLoadingIndicatorView avi;
+    private SuggestTourAdapter mAdapter;
+    private APIService mService;
+    private ArrayList<Tour> mArrayList;
     private OnFragmentInteractionListener mListener;
 
     public SuggestTourFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SuggestTourFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static SuggestTourFragment newInstance(String param1, String param2) {
         SuggestTourFragment fragment = new SuggestTourFragment();
@@ -78,38 +82,114 @@ public class SuggestTourFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_suggest_tour, container, false);
+        mService = ApiUtils.getToursService();
 
-        listView = (ListView) view.findViewById(R.id.lvSuggestTour);
+        initViews(view);
 
-        toursModelArrayList = populateList();
-        Log.d("hjhjh",toursModelArrayList.size()+"");
-        suggestTourAdapter = new SuggestTourAdapter(getActivity().getApplicationContext(),toursModelArrayList);
-        listView.setAdapter(suggestTourAdapter);
+        loadTour();
+
+        // Locate the EditText in listview_main.xml
+        editsearch = (SearchView) view.findViewById(R.id.search_tour);
+        editsearch.clearFocus();
+        search(editsearch);
+        editsearch.setVisibility(View.GONE);
+
+        // Init loading animation
+        avi = (AVLoadingIndicatorView) view.findViewById(R.id.tour_loading_indicator);
 
         return view;
     }
 
-    private ArrayList<ToursModel> populateList(){
-
-        ArrayList<ToursModel> list = new ArrayList<>();
-
-        for(int i = 0; i < myImageNameList.length; i++){
-            ToursModel imageModel = new ToursModel();
-            imageModel.setTourName(myImageNameList[i]);
-            imageModel.setImage_drawable(myImageList[i]);
-            imageModel.setTourInfo(tourInfoList[i]);
-            list.add(imageModel);
-        }
-
-        return list;
-
+    private void initViews(View view) {
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.list_suggest_tour);
+        mRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(layoutManager);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    private void search(SearchView searchView) {
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                String query = "";
+                if (newText != null) {
+                    query = newText;
+                }
+                mAdapter.getFilter().filter(query);
+                return true;
+            }
+        });
+    }
+
+    public void loadTour() {
+        // Show loading indicator
+//        startLoadingAnimation();
+
+        mService.getTour().enqueue(new Callback<TourModel>() {
+            @Override
+            public void onResponse(Call<TourModel> call, Response<TourModel> response) {
+
+                if (response.isSuccessful()) {
+                    TourModel jsonResponse = response.body();
+                    mArrayList = new ArrayList<Tour>(jsonResponse.getData());
+                    mAdapter = new SuggestTourAdapter(mArrayList);
+                    mRecyclerView.setAdapter(mAdapter);
+                    Log.d("SuggestTourFragment", "posts loaded from API");
+                } else {
+                    int statusCode = response.code();
+                    eventBack();
+                    Log.d("SuggestTourFragment", "Call API response code " + statusCode);
+                    // handle request errors depending on status code
+                }
+
+                // Hide loading indicator
+                stopLoadingAnimation();
+            }
+
+            @Override
+            public void onFailure(Call<TourModel> call, Throwable t) {
+                // Hide loading indicator
+                stopLoadingAnimation();
+                eventBack();
+                Log.d("Error", t.getMessage());
+                Log.d("AttractionsActivity", "error loading from API");
+
+            }
+        });
+    }
+
+    public void startLoadingAnimation() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                avi.smoothToShow();
+            }
+        });
+    }
+
+    public void stopLoadingAnimation() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                avi.smoothToHide();
+            }
+        });
+    }
+
+    public void eventBack() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getActivity().onBackPressed();
+            }
+        });
     }
 
     @Override
@@ -130,16 +210,6 @@ public class SuggestTourFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

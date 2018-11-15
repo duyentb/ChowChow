@@ -1,11 +1,12 @@
 package com.chowchow.os.chowchow.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ToursData {
+public class Tour implements Serializable {
     @SerializedName("tour_info")
     @Expose
     private TourInfo tourInfo;
