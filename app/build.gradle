@@ -19,7 +19,32 @@ android {
             minifyEnabled false
         }
     }
+    dataBinding {
+        enabled = true
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
     buildToolsVersion '28.0.3'
+}
+
+def getProps(String propName) {
+    def propsFile = rootProject.file('local.properties')
+    if (propsFile.exists()) {
+        def props = new Properties()
+        props.load(new FileInputStream(propsFile))
+        return props[propName]
+    } else {
+        return "";
+    }
+}
+
+ext {
+    dagger_version = '2.11'
+    support_lib_version = '28.0.0'
+    material_edittext_version = '2.1.4'
 }
 
 dependencies {
@@ -35,9 +60,9 @@ dependencies {
     implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.google.android.gms:play-services-places:16.0.0'
+    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation 'com.google.firebase:firebase-auth:16.0.5'
     implementation 'com.weiwangcn.betterspinner:library-material:1.1.0'
-    implementation 'me.gujun.android.taggroup:library:1.4@aar'
-    implementation 'com.robertlevonyan.view:MaterialChipView:1.2.4'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
@@ -48,8 +73,12 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:4.38.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.wang.avi:library:2.1.3'
+    implementation 'com.nex3z:flow-layout:1.2.4'
     //implementation 'com.google.android.material:material:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+apply plugin: 'realm-android'
+apply plugin: 'com.android.application'

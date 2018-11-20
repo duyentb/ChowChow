@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
+        android:name=".realm.ChowChowApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_logo_36dp"
         android:label="@string/app_name"
@@ -65,7 +66,8 @@
         <activity android:name=".ui.view.main.view.AttractionsDetailActivity" />
         <activity android:name=".ui.view.main.view.RestaurantDetailActivity" />
         <activity android:name=".ui.view.main.view.DirectionActivity" />
-        <activity android:name=".ui.view.main.view.TourDayDetailActivity"></activity>
+        <activity android:name=".ui.view.main.view.TourDayDetailActivity" />
+        <activity android:name=".ui.view.main.view.EventDetailActivity"></activity>
     </application>
 
 </manifest>

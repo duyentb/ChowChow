@@ -78,6 +78,8 @@ public class TourDetailActivity extends AppCompatActivity {
         // Use the book to populate the data into our views
         final Tour tour = (Tour) getIntent().getSerializableExtra(SuggestTourFragment.SUGGEST_TOUR_DETAIL_KEY);
 
+        tv_tour_name.setText(tour.getTourInfo().getTourName());
+
         Picasso.get().load(tour.getAttrImage().get(0).getLink()).centerCrop().resize(120, 120).into(civ_tour_image);
 
         String duration = CommonUtils.convertText(tour.getTourInfo().getTourDuration(), "ngày");

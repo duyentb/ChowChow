@@ -13,6 +13,7 @@ import android.widget.SearchView;
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.api.ApiUtils;
 import com.chowchow.os.chowchow.api.APIService;
+import com.chowchow.os.chowchow.callback.ItemClickListener;
 import com.chowchow.os.chowchow.model.Event;
 import com.chowchow.os.chowchow.model.EventModel;
 import com.chowchow.os.chowchow.ui.adapter.EventAdapter;
@@ -25,6 +26,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EventActivity extends AppCompatActivity {
+
+    public static final String EVENT_DETAIL_KEY = "EVENT";
+
     private ImageView iv_back, imgAppName;
     private RecyclerView mRecyclerView;
     private SearchView editsearch;
@@ -111,7 +115,14 @@ public class EventActivity extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     EventModel jsonResponse = response.body();
                     mArrayList = new ArrayList<Event>(jsonResponse.getListEvent());
-                    mAdapter = new EventAdapter(mArrayList);
+                    mAdapter = new EventAdapter(mArrayList, new ItemClickListener() {
+                        @Override
+                        public void onClick(View view, int position, boolean isLongClick) {
+                            Intent intent = new Intent(view.getContext(), DirectionActivity.class);
+                            intent.putExtra(EventActivity.EVENT_DETAIL_KEY, mArrayList.get(position));
+                            view.getContext().startActivity(intent);
+                        }
+                    });
                     mRecyclerView.setAdapter(mAdapter);
                     Log.d("EventActivity", "posts loaded from API");
                 }else {

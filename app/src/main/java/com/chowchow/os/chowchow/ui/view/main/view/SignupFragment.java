@@ -8,23 +8,27 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.AppCompatButton;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.chowchow.os.chowchow.model.User;
+import com.chowchow.os.chowchow.realm.UserDAO;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import com.chowchow.os.chowchow.R;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SignupFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SignupFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SignupFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,20 +39,16 @@ public class SignupFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private EditText input_name, input_user_name, input_email, input_phone, input_password;
+    private Button btnSignIn, btn_signup, btnResetPassword;
+    private ProgressBar progressBar;
+    private FirebaseAuth auth;
     private OnFragmentInteractionListener mListener;
 
     public SignupFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SignupFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static SignupFragment newInstance(String param1, String param2) {
         SignupFragment fragment = new SignupFragment();
@@ -72,7 +72,67 @@ public class SignupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_signup, container, false);
+        View view = inflater.inflate(R.layout.fragment_signup, container, false);
+
+        //Get init Realm instance
+        final UserDAO userDAO = new UserDAO();
+
+        btn_signup = (Button) view.findViewById(R.id.btn_signup);
+        input_name = (EditText) view.findViewById(R.id.input_name);
+        input_email = (EditText) view.findViewById(R.id.input_email);
+        input_password = (EditText) view.findViewById(R.id.input_password);
+        input_user_name = (EditText) view.findViewById(R.id.input_user_name);
+        input_phone = (EditText) view.findViewById(R.id.input_phone);
+
+        btn_signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final String email = input_email.getText().toString().trim();
+                final String name = input_name.getText().toString().trim();
+                final String userName = input_user_name.getText().toString().trim();
+                final String phone = input_phone.getText().toString().trim();
+                final String password = input_password.getText().toString().trim();
+
+                if (TextUtils.isEmpty(userName)) {
+                    Toast.makeText(getContext(), "Vui lòng nhập tên đăng nhập", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (userDAO.checkExistUser(userName)) {
+                    Toast.makeText(getContext(), "Tên đăng nhập đã tồn tại !", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(getContext(), "Vui lòng nhập mật khẩu", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (password.length() < 6) {
+                    Toast.makeText(getContext(), "Mật khẩu phải lớn hơn 6 ký tự !", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                User user = new User();
+                user.setUserName(userName);
+                user.setPassword(password);
+                user.setName(name);
+                user.setEmail(email);
+                user.setPhone(phone);
+                user.setLogin(false);
+
+                userDAO.insertUser(user);
+
+                Toast.makeText(getContext(), "Đăng ký thành công !", Toast.LENGTH_SHORT).show();
+
+                Fragment fragment = new LoginFragment();
+                loadFragment(fragment);
+
+            }
+        });
+
+        return view;
     }
 
     @Override
@@ -129,16 +189,6 @@ public class SignupFragment extends Fragment {
         transaction.commit();
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

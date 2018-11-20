@@ -2,6 +2,7 @@ package com.chowchow.os.chowchow.ui.view.main.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,14 +42,6 @@ import retrofit2.Response;
 
 import static android.support.v4.content.ContextCompat.getSystemService;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link IntroSliderFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link IntroSliderFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class IntroSliderFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -56,12 +49,6 @@ public class IntroSliderFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam2;
-    private ViewPager viewPager;
-    private LinearLayout dotsLayout;
-    private TextView[] dots;
-    private int[] layouts;
-    private Button btnSkip, btnNext;
     private static ViewPager mPager;
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
@@ -69,9 +56,6 @@ public class IntroSliderFragment extends Fragment {
     private SlidingImage_Adapter mAdapter;
     private APIService mService;
     private ArrayList<Tour> mArrayList;
-
-    private int[] myImageList = new int[]{R.drawable.cau_rong_1, R.drawable.cau_song_han1,
-            R.drawable.ngu_hanh_son,R.drawable.dhc_marina};
 
     private OnFragmentInteractionListener mListener;
 
@@ -119,29 +103,6 @@ public class IntroSliderFragment extends Fragment {
 
     private void init(View view) {
         mPager = (ViewPager) view.findViewById(R.id.vpPager);
-//        mService.getTour().enqueue(new Callback<TourModel>() {
-//
-//            @Override
-//            public void onResponse(Call<TourModel> call, Response<TourModel> response) {
-//                if (response.isSuccessful()) {
-//                    TourModel jsonResponse = response.body();
-//                    mArrayList = new ArrayList<Tour>(jsonResponse.getData());
-//                    Log.d("IntroSliderFragment", "posts loaded from API");
-//                } else {
-//                    int statusCode = response.code();
-//                    Log.d("IntroSliderFragment", "Call API response code " + statusCode);
-//                    // handle request errors depending on status code
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<TourModel> call, Throwable t) {
-//                Log.d("Error", t.getMessage());
-//                Log.d("IntroSliderFragment", "error loading from API");
-//
-//            }
-//        });
 
         mAdapter = new SlidingImage_Adapter(getActivity(), mArrayList);
         mPager.setAdapter(mAdapter);
@@ -156,8 +117,8 @@ public class IntroSliderFragment extends Fragment {
         //Set circle indicator radius
         indicator.setRadius(5 * density);
 
-        //NUM_PAGES = mArrayList.size();
-        NUM_PAGES = 0;
+        NUM_PAGES = mArrayList.size();
+        //NUM_PAGES = 0;
         if (NUM_PAGES > 5) {
             NUM_PAGES = 5;
         }
@@ -202,12 +163,6 @@ public class IntroSliderFragment extends Fragment {
 
     }
 
-    public void loadTour() {
-        // Show loading indicator
-//        startLoadingAnimation();
-
-
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -234,23 +189,10 @@ public class IntroSliderFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
-    private int getItem(int i) {
-        return viewPager.getCurrentItem() + i;
-    }
 }
 

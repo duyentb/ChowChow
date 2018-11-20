@@ -25,6 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ShoppingActivity extends AppCompatActivity {
+    public static final String SHOPPING_DETAIL_KEY = "SHOPPING";
     private ImageView iv_back, imgAppName;
     private RecyclerView mRecyclerView;
     private SearchView editsearch;

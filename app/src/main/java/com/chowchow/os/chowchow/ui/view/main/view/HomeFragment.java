@@ -1,5 +1,6 @@
 package com.chowchow.os.chowchow.ui.view.main.view;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +33,8 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private APIService mService;
     private ArrayList<Tour> mArrayList;
+    private ProgressDialog progressDialog;
+    private Context context;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -65,6 +68,8 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        context = getContext();
+        mService = ApiUtils.getToursService();
     }
 
     @Override
@@ -72,26 +77,37 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        progressDialog = ProgressDialog.show(context, "Vui lòng đợi...",
+                "Đang tải..!", true);
+        mService.getTour().enqueue(new Callback<TourModel>() {
 
-        mService = ApiClient.getInstance().getClient().create(APIService.class);
-        Call<TourModel> responseCall = mService.getTour();
-        responseCall.enqueue(new Callback<TourModel>() {
             @Override
-            public void onResponse(Call<TourModel> call, retrofit2.Response<TourModel> response) {
-                if (response.isSuccessful() && response.body() != null && response != null) {
-
+            public void onResponse(Call<TourModel> call, Response<TourModel> response) {
+                if (response.isSuccessful()) {
                     TourModel jsonResponse = response.body();
                     mArrayList = new ArrayList<Tour>(jsonResponse.getData());
-                    Log.d("HomeFragment", "posts loaded from API");
+                    Fragment dashboardFragment, sliderFragment;
+                    dashboardFragment = new DashboardFragment();
+                    sliderFragment = IntroSliderFragment.newInstance(mArrayList);
+                    FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                    transaction.add(R.id.frame_slider, sliderFragment);
+                    transaction.add(R.id.frame_dashboard, dashboardFragment);
+                    transaction.commit();
+                    Log.d("IntroSliderFragment", "posts loaded from API");
                 } else {
                     int statusCode = response.code();
-                    Log.d("HomeFragment", "Call API response code " + statusCode);
+                    Log.d("IntroSliderFragment", "Call API response code " + statusCode);
+                    // handle request errors depending on status code
                 }
+                progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<TourModel> call, Throwable t) {
-                Log.d("Errror", t.getMessage());
+                progressDialog.dismiss();
+                Log.d("Error", t.getMessage());
+                Log.d("IntroSliderFragment", "error loading from API");
+
             }
         });
 
@@ -100,13 +116,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Fragment dashboardFragment, sliderFragment;
-        dashboardFragment = new DashboardFragment();
-        sliderFragment = IntroSliderFragment.newInstance(mArrayList);
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.add(R.id.frame_slider, sliderFragment);
-        transaction.add(R.id.frame_dashboard, dashboardFragment);
-        transaction.commit();
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

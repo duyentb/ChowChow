@@ -21,6 +21,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.helper.BottomNavigationViewHelper;
+import com.chowchow.os.chowchow.model.User;
+import com.chowchow.os.chowchow.realm.UserDAO;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
@@ -108,7 +110,21 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_account:
                     //mTextMessage.setText(R.string.title_account);
                     chowchow.setVisibility(View.GONE);
-                    fragment = new LoginFragment();
+
+                    UserDAO userDAO = new UserDAO();
+                    User user = userDAO.getUserLogin();
+                    if (user == null) {
+                        fragment = new LoginFragment();
+                    } else {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("USER_NAME", user.getUserName());
+                        bundle.putString("NAME", user.getName());
+                        bundle.putString("PASSWORD", user.getPassword());
+                        bundle.putString("EMAIL", user.getEmail());
+                        bundle.putString("PHONE", user.getPhone());
+                        fragment = new ProfileFragment();
+                        fragment.setArguments(bundle);
+                    }
                     loadFragment(fragment);
                     return true;
             }

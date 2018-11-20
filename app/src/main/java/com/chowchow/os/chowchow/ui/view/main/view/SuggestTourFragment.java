@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.api.APIService;
@@ -21,10 +22,12 @@ import com.chowchow.os.chowchow.api.ApiUtils;
 import com.chowchow.os.chowchow.callback.ItemClickListener;
 import com.chowchow.os.chowchow.model.Attractions;
 import com.chowchow.os.chowchow.model.AttractionsModel;
+import com.chowchow.os.chowchow.model.Tag;
 import com.chowchow.os.chowchow.model.Tour;
 import com.chowchow.os.chowchow.model.TourModel;
 import com.chowchow.os.chowchow.ui.adapter.AttractionsAdapter;
 import com.chowchow.os.chowchow.ui.adapter.SuggestTourAdapter;
+import com.chowchow.os.chowchow.utils.CommonUtils;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -44,6 +47,10 @@ public class SuggestTourFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String fromDate;
+    private int cost;
+    private String duration;
+    private ArrayList<String> listSelected;
     private ListView listView;
     private SuggestTourAdapter suggestTourAdapter;
     private RecyclerView mRecyclerView;
@@ -52,6 +59,7 @@ public class SuggestTourFragment extends Fragment {
     private SuggestTourAdapter mAdapter;
     private APIService mService;
     private ArrayList<Tour> mArrayList;
+    private ArrayList<Tour> mFilterList;
     private OnFragmentInteractionListener mListener;
 
     public SuggestTourFragment() {
@@ -72,8 +80,18 @@ public class SuggestTourFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mFilterList = new ArrayList<Tour>();
+            duration = getArguments().getString(ScheduleFragment.SCHEDULE_DURATION_KEY);
+            fromDate = getArguments().getString(ScheduleFragment.SCHEDULE_DATE_FROM_KEY);
+            cost = getArguments().getInt(ScheduleFragment.SCHEDULE_COST_KEY);
+            listSelected = getArguments().getStringArrayList(ScheduleFragment.SCHEDULE_FAVORITE_KEY);
+            Log.d("DuyenTB data get",""+listSelected.size() + " "+duration + " " + cost + " " + fromDate );
+        } else {
+            duration = "";
+            fromDate = "";
+            cost = 0 ;
+            listSelected = new ArrayList<String>();
+            mFilterList = null;
         }
     }
 
@@ -139,8 +157,27 @@ public class SuggestTourFragment extends Fragment {
                 if (response.isSuccessful()) {
                     TourModel jsonResponse = response.body();
                     mArrayList = new ArrayList<Tour>(jsonResponse.getData());
-                    mAdapter = new SuggestTourAdapter(mArrayList);
-                    mRecyclerView.setAdapter(mAdapter);
+                    for (Tour tour : mArrayList) {
+                        int budget = Integer.parseInt(tour.getTourInfo().getTourBudget());
+                        if (fromDate.equals(tour.getTourInfo().getTourDayStart())
+                                && duration.equals(tour.getTourInfo().getTourDuration())
+                                && (cost >= budget)
+                                && CommonUtils.isMatchFavorite((ArrayList<Tag>) tour.getTourInfo().getTourFavorite(), listSelected)) {
+
+                            mFilterList.add(tour);
+                        }
+                    }
+                    if (mFilterList == null) {
+                        mAdapter = new SuggestTourAdapter(mArrayList);
+                        mRecyclerView.setAdapter(mAdapter);
+                    } else if (mFilterList.size() == 0) {
+                        Toast.makeText(getContext(), "Rất tiếc chúng tôi không thể tìm thấy tour phù hợp với bạn !", Toast.LENGTH_LONG).show();
+                        //eventBack();
+                    } else {
+                        mAdapter = new SuggestTourAdapter(mFilterList);
+                        mRecyclerView.setAdapter(mAdapter);
+                    }
+
                     Log.d("SuggestTourFragment", "posts loaded from API");
                 } else {
                     int statusCode = response.code();

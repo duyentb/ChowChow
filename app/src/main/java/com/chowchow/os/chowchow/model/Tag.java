@@ -13,6 +13,8 @@ public class Tag implements Serializable {
     @Expose
     private String name;
 
+    private boolean checked;
+
     public String getTagId() {
         return tagId;
     }
@@ -27,5 +29,13 @@ public class Tag implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

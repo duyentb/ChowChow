@@ -1,6 +1,7 @@
 package com.chowchow.os.chowchow.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
@@ -13,8 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chowchow.os.chowchow.R;
+import com.chowchow.os.chowchow.callback.ItemClickListener;
 import com.chowchow.os.chowchow.model.Event;
 import com.chowchow.os.chowchow.model.Shop;
+import com.chowchow.os.chowchow.ui.view.main.view.AttractionsActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.AttractionsDetailActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.EventActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.EventDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,10 +29,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     private Context context;
     private ArrayList<Event> mArrayList;
     private ArrayList<Event> mFilteredList;
+    private ItemClickListener itemClickListener;
 
-    public EventAdapter(ArrayList<Event> arrayList) {
+    public EventAdapter(ArrayList<Event> arrayList, ItemClickListener listener) {
         mArrayList = arrayList;
         mFilteredList = arrayList;
+        itemClickListener = listener;
     }
 
     @NonNull
@@ -37,12 +45,27 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EventAdapter.ViewHolder viewHolder, int i) {
-        String imgURL = mFilteredList.get(i).getAttrImage().get(0).getLink();
+    public void onBindViewHolder(@NonNull EventAdapter.ViewHolder viewHolder, int position) {
+        String imgURL = mFilteredList.get(position).getAttrImage().get(0).getLink();
         Picasso.get().load(imgURL).centerCrop().resize(120, 90).into(viewHolder.iv_event_image);
-        viewHolder.tv_event_name.setText(mFilteredList.get(i).getEventName());
-        viewHolder.tv_event_address.setText(mFilteredList.get(i).getEventAddress());
-        //viewHolder.btn_guide_map.setText(mFilteredList.get(i).getApi());
+        viewHolder.tv_event_name.setText(mFilteredList.get(position).getEventName());
+        viewHolder.tv_event_address.setText(mFilteredList.get(position).getEventAddress());
+
+        viewHolder.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onClick(View view, int position, boolean isLongClick) {
+                Intent intent = new Intent(view.getContext(), EventDetailActivity.class);
+                intent.putExtra(EventActivity.EVENT_DETAIL_KEY, mFilteredList.get(position));
+                view.getContext().startActivity(intent);
+            }
+        });
+
+        viewHolder.btn_guide_map.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                itemClickListener.onClick(v, position, false);
+            }
+        });
     }
 
     @Override
@@ -89,10 +112,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         };
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
         private TextView tv_event_name, tv_event_address;
         private ImageView iv_event_image;
         private AppCompatButton btn_guide_map;
+        private ItemClickListener itemClickListener;
 
         public ViewHolder(View view) {
             super(view);
@@ -102,6 +126,25 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             iv_event_image = (ImageView) view.findViewById(R.id.iv_event_image);
             btn_guide_map = (AppCompatButton) view.findViewById(R.id.btn_guide_map);
 
+            view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
+
+        }
+
+        public void setItemClickListener(ItemClickListener itemClickListener)
+        {
+            this.itemClickListener = itemClickListener;
+        }
+
+        @Override
+        public void onClick(View v) {
+            itemClickListener.onClick(v, getAdapterPosition(),false);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            itemClickListener.onClick(v, getAdapterPosition(),true);
+            return true;
         }
     }
 }

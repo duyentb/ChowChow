@@ -1,5 +1,6 @@
 package com.chowchow.os.chowchow.utils;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.chowchow.os.chowchow.model.Tag;
@@ -7,6 +8,7 @@ import com.chowchow.os.chowchow.model.Tag;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -55,5 +57,25 @@ public class CommonUtils {
         Date nextDay = c.getTime();
 
         return nextDay;
+    }
+
+    public static int convertDpToPx(Context context, float dips)
+    {
+        return (int) (dips * context.getResources().getDisplayMetrics().density);
+    }
+
+    public static float convertPxToDp(Context context, float px) {
+        return px / context.getResources().getDisplayMetrics().density;
+    }
+
+    public static boolean isMatchFavorite (ArrayList<Tag> tourFavorite, ArrayList<String> selectedFavorite) {
+        for (Tag tag : tourFavorite) {
+            for (int i = 0 ; i < selectedFavorite.size(); i++) {
+                if (selectedFavorite.get(i).equals(tag.getTagId())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
