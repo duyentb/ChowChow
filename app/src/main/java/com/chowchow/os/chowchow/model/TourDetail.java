@@ -56,6 +56,12 @@ public class TourDetail implements Serializable {
     @SerializedName("attr_image")
     @Expose
     private List<AttrImage> attrImage = null;
+    @SerializedName("specialties")
+    @Expose
+    private List<Specialty> specialties = null;
+    @SerializedName("product")
+    @Expose
+    private List<Product> product = null;
 
     public String getDay() {
         return day;
@@ -183,6 +189,22 @@ public class TourDetail implements Serializable {
 
     public void setAttrImage(List<AttrImage> attrImage) {
         this.attrImage = attrImage;
+    }
+
+    public List<Specialty> getSpecialties() {
+        return specialties;
+    }
+
+    public void setSpecialties(List<Specialty> specialties) {
+        this.specialties = specialties;
+    }
+
+    public List<Product> getProduct() {
+        return product;
+    }
+
+    public void setProduct(List<Product> product) {
+        this.product = product;
     }
 
 }

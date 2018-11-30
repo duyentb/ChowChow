@@ -12,14 +12,6 @@ import android.view.ViewGroup;
 
 import com.chowchow.os.chowchow.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link DashboardFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link DashboardFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DashboardFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,15 +28,6 @@ public class DashboardFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DashboardFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static DashboardFragment newInstance(String param1, String param2) {
         DashboardFragment fragment = new DashboardFragment();
         Bundle args = new Bundle();
@@ -69,8 +52,7 @@ public class DashboardFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         CardView attractionsCard = (CardView) view.findViewById(R.id.card_attractions);
-        attractionsCard.setOnClickListener(new View.OnClickListener()
-        {
+        attractionsCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
@@ -80,8 +62,7 @@ public class DashboardFragment extends Fragment {
         });
 
         CardView restaurantCard = (CardView) view.findViewById(R.id.card_restaurant);
-        restaurantCard.setOnClickListener(new View.OnClickListener()
-        {
+        restaurantCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
@@ -91,8 +72,7 @@ public class DashboardFragment extends Fragment {
         });
 
         CardView shoppingCard = (CardView) view.findViewById(R.id.card_shopping);
-        shoppingCard.setOnClickListener(new View.OnClickListener()
-        {
+        shoppingCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
@@ -102,12 +82,21 @@ public class DashboardFragment extends Fragment {
         });
 
         CardView eventCard = (CardView) view.findViewById(R.id.card_event);
-        eventCard.setOnClickListener(new View.OnClickListener()
-        {
+        eventCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
                 Intent intent = new Intent(getActivity(), EventActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CardView hotelCard = (CardView) view.findViewById(R.id.card_hotel);
+        hotelCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(getActivity(), HotelActivity.class);
                 startActivity(intent);
             }
         });
@@ -139,17 +128,6 @@ public class DashboardFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

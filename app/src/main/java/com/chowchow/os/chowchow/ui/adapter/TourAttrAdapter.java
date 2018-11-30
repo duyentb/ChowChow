@@ -15,6 +15,8 @@ import com.chowchow.os.chowchow.callback.ItemClickListener;
 import com.chowchow.os.chowchow.model.TourDetail;
 import com.chowchow.os.chowchow.ui.view.main.view.AttractionsActivity;
 import com.chowchow.os.chowchow.ui.view.main.view.AttractionsDetailActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.DirectionActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.ItineraryDetailActivity;
 import com.chowchow.os.chowchow.utils.CommonUtils;
 import com.squareup.picasso.Picasso;
 
@@ -51,22 +53,23 @@ public class TourAttrAdapter extends RecyclerView.Adapter<TourAttrAdapter.ViewHo
             viewHolder.tv_attr_price.setText(CommonUtils.convertCost(price));
         }
 
+        viewHolder.ll_view_detail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ItineraryDetailActivity.class);
+                intent.putExtra(ItineraryDetailActivity.ITINERARY_DETAIL_KEY, mArrayList.get(position));
+                view.getContext().startActivity(intent);
+            }
+        });
 
-//        viewHolder.setItemClickListener(new ItemClickListener() {
-//            @Override
-//            public void onClick(View view, int position, boolean isLongClick) {
-//                Intent intent = new Intent(view.getContext(), AttractionsDetailActivity.class);
-//                intent.putExtra(AttractionsActivity.ATTRACTIONS_DETAIL_KEY, mArrayList.get(position));
-//                view.getContext().startActivity(intent);
-//            }
-//        });
-
-//        viewHolder.ll_guide_map.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                itemClickListener.onClick(v, position, false);
-//            }
-//        });
+        viewHolder.ll_guide_map.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), DirectionActivity.class);
+                intent.putExtra(ItineraryDetailActivity.ITINERARY_DETAIL_KEY, mArrayList.get(position));
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -77,7 +80,7 @@ public class TourAttrAdapter extends RecyclerView.Adapter<TourAttrAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener {
         private TextView tv_attr_name, tv_attr_address, tv_time, tv_attr_price, tv_view_detail, tv_guide_map;
         private ImageView iv_attr_image;
-        private LinearLayout ll_guide_map;
+        private LinearLayout ll_view_detail, ll_guide_map;
         private ItemClickListener itemClickListener;
 
         public ViewHolder(View view) {
@@ -91,6 +94,7 @@ public class TourAttrAdapter extends RecyclerView.Adapter<TourAttrAdapter.ViewHo
             tv_guide_map = (TextView) view.findViewById(R.id.tv_guide_map);
             iv_attr_image = (ImageView) view.findViewById(R.id.iv_attr_image);
 
+            ll_view_detail = (LinearLayout) view.findViewById(R.id.ll_view_detail);
             ll_guide_map = (LinearLayout) view.findViewById(R.id.ll_guide_map);
 
             view.setOnClickListener(this);

@@ -11,12 +11,15 @@ import android.widget.ImageView;
 import android.widget.SearchView;
 
 import com.chowchow.os.chowchow.R;
-import com.chowchow.os.chowchow.api.ApiUtils;
 import com.chowchow.os.chowchow.api.APIService;
+import com.chowchow.os.chowchow.api.ApiUtils;
 import com.chowchow.os.chowchow.callback.ItemClickListener;
-import com.chowchow.os.chowchow.model.Shop;
-import com.chowchow.os.chowchow.model.ShoppingModel;
-import com.chowchow.os.chowchow.ui.adapter.ShoppingAdapter;
+import com.chowchow.os.chowchow.model.Hotel;
+import com.chowchow.os.chowchow.model.HotelModel;
+import com.chowchow.os.chowchow.model.Restaurant;
+import com.chowchow.os.chowchow.model.RestaurantModel;
+import com.chowchow.os.chowchow.ui.adapter.HotelAdapter;
+import com.chowchow.os.chowchow.ui.adapter.RestaurantAdapter;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -25,29 +28,31 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShoppingActivity extends AppCompatActivity {
-    public static final String SHOPPING_DETAIL_KEY = "SHOPPING";
+public class HotelActivity extends AppCompatActivity {
+
     private ImageView iv_back, imgAppName;
     private RecyclerView mRecyclerView;
     private SearchView editsearch;
     private AVLoadingIndicatorView avi;
-    private ShoppingAdapter mAdapter;
+    private HotelAdapter mAdapter;
     private APIService mService;
-    private ArrayList<Shop> mArrayList;
+    private ArrayList<Hotel> mArrayList;
+
+    public static final String HOTEL_DETAIL_KEY = "HOTEL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shopping);
+        setContentView(R.layout.activity_hotel);
 
-        mService = ApiUtils.getShoppingService();
+        mService = ApiUtils.getHotelService();
 
         initViews();
 
-        loadShopping();
+        loadHotel();
 
         // Locate the EditText in listview_main.xml
-        editsearch = (SearchView) findViewById(R.id.search_shopping);
+        editsearch = (SearchView) findViewById(R.id.search_hotel);
         editsearch.setIconified(false);
         editsearch.clearFocus();
         search(editsearch);
@@ -70,16 +75,15 @@ public class ShoppingActivity extends AppCompatActivity {
         });
 
         // Init loading animation
-        avi = (AVLoadingIndicatorView) findViewById(R.id.shop_loading_indicator);
+        avi = (AVLoadingIndicatorView) findViewById(R.id.hotel_loading_indicator);
     }
-
     @Override
     protected void onResume() {
         super.onResume();
     }
 
     private void initViews(){
-        mRecyclerView = (RecyclerView)findViewById(R.id.list_shopping);
+        mRecyclerView = (RecyclerView)findViewById(R.id.list_hotel);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -106,46 +110,46 @@ public class ShoppingActivity extends AppCompatActivity {
         });
     }
 
-    public void loadShopping() {
+    public void loadHotel() {
         // Show loading indicator
-        //startLoadingAnimation();
+//        startLoadingAnimation();
 
-        mService.getShopping().enqueue(new Callback<ShoppingModel>() {
+        mService.getHotel().enqueue(new Callback<HotelModel>() {
             @Override
-            public void onResponse(Call<ShoppingModel> call, Response<ShoppingModel> response) {
+            public void onResponse(Call<HotelModel> call, Response<HotelModel> response) {
 
                 if(response.isSuccessful()) {
-                    ShoppingModel jsonResponse = response.body();
-                    mArrayList = new ArrayList<Shop>(jsonResponse.getListShopping());
-                    mAdapter = new ShoppingAdapter(mArrayList, new ItemClickListener() {
+                    HotelModel jsonResponse = response.body();
+                    mArrayList = new ArrayList<>(jsonResponse.getListHotel());
+                    mAdapter = new HotelAdapter(mArrayList, new ItemClickListener() {
                         @Override
                         public void onClick(View view, int position, boolean isLongClick) {
                             Intent intent = new Intent(view.getContext(), DirectionActivity.class);
-                            intent.putExtra(ShoppingActivity.SHOPPING_DETAIL_KEY, mArrayList.get(position));
+                            intent.putExtra(HotelActivity.HOTEL_DETAIL_KEY, mArrayList.get(position));
                             view.getContext().startActivity(intent);
                         }
                     });
                     mRecyclerView.setAdapter(mAdapter);
 
-                    Log.d("ShoppingActivity", "posts loaded from API");
+                    // Hide loading indicator
+                    stopLoadingAnimation();
+                    Log.d("HotelActivity", "posts loaded from API");
                 } else {
                     int statusCode  = response.code();
+                    stopLoadingAnimation();
                     eventBack();
-                    Log.d("ShoppingActivity", "Call API response code " + statusCode);
+                    Log.d("HotelActivity", "Call API response code " + statusCode);
                     // handle request errors depending on status code
                 }
-
-                // Hide loading indicator
-                stopLoadingAnimation();
             }
 
             @Override
-            public void onFailure(Call<ShoppingModel> call, Throwable t) {
-                // Hide loading indicator
+            public void onFailure(Call<HotelModel> call, Throwable t) {
                 stopLoadingAnimation();
                 eventBack();
                 Log.d("Error",t.getMessage());
-                Log.d("ShoppingActivity", "error loading from API");
+                Log.d("HotelActivity", "error loading from API");
+
             }
         });
     }

@@ -28,9 +28,11 @@ import com.chowchow.os.chowchow.callback.DirectionFinderListener;
 import com.chowchow.os.chowchow.helper.DirectionFinder;
 import com.chowchow.os.chowchow.model.Attractions;
 import com.chowchow.os.chowchow.model.Event;
+import com.chowchow.os.chowchow.model.Hotel;
 import com.chowchow.os.chowchow.model.Restaurant;
 import com.chowchow.os.chowchow.model.Route;
 import com.chowchow.os.chowchow.model.Shop;
+import com.chowchow.os.chowchow.model.TourDetail;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -69,6 +71,8 @@ public class DirectionActivity extends FragmentActivity implements OnMapReadyCal
     private Restaurant restaurant;
     private Event event;
     private Shop shop;
+    private Hotel hotel;
+    private TourDetail tourDetail;
     private String latAttractions;
     private String lngAttractions;
     private Button btnFindPath;
@@ -102,6 +106,8 @@ public class DirectionActivity extends FragmentActivity implements OnMapReadyCal
         restaurant = (Restaurant) getIntent().getSerializableExtra(RestaurantActivity.RESTAURANT_DETAIL_KEY);
         event = (Event) getIntent().getSerializableExtra(EventActivity.EVENT_DETAIL_KEY);
         shop = (Shop) getIntent().getSerializableExtra(ShoppingActivity.SHOPPING_DETAIL_KEY);
+        hotel = (Hotel) getIntent().getSerializableExtra(HotelActivity.HOTEL_DETAIL_KEY);
+        tourDetail = (TourDetail) getIntent().getSerializableExtra(ItineraryDetailActivity.ITINERARY_DETAIL_KEY);
 
         if (attractions != null) {
             latAttractions = attractions.getLat();
@@ -116,9 +122,17 @@ public class DirectionActivity extends FragmentActivity implements OnMapReadyCal
             lngAttractions = event.getLng();
             Log.d("DuyenTB","Event");
         } else if (shop != null) {
-            latAttractions = event.getLat();
-            lngAttractions = event.getLng();
+            latAttractions = shop.getLat();
+            lngAttractions = shop.getLng();
             Log.d("DuyenTB","Shopping");
+        } else if (hotel != null) {
+            latAttractions = hotel.getLat();
+            lngAttractions = hotel.getLng();
+            Log.d("DuyenTB","Hotel");
+        } else if (tourDetail != null) {
+            latAttractions = tourDetail.getLat();
+            lngAttractions = tourDetail.getLong();
+            Log.d("DuyenTB","TourDetail");
         }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.

@@ -50,7 +50,63 @@
             android:text="0 min"
             android:id="@+id/tvDuration" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="6">
 
+        <Button
+            android:id="@+id/btnRestaurant"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:text="Nhà hàng"
+            android:textSize="6sp" />
+
+        <Button
+            android:id="@+id/btnHotel"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:textSize="6sp"
+            android:text="Khách sạn" />
+
+        <Button
+            android:id="@+id/btnHospital"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:textSize="6sp"
+            android:text="Bệnh viện" />
+
+        <Button
+            android:id="@+id/btnATM"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:textSize="6sp"
+            android:text="ATM" />
+
+
+        <Button
+            android:id="@+id/btnGas"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:textSize="6sp"
+            android:text="Trạm xăng" />
+
+        <Button
+            android:id="@+id/btnCoffee"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:textSize="6sp"
+            android:text="Coffee" />
+
+
+    </LinearLayout>
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/map"

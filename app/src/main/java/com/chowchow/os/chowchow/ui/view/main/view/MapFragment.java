@@ -32,7 +32,9 @@ import android.widget.Toast;
 
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.callback.DirectionFinderListener;
+import com.chowchow.os.chowchow.constant.Constant;
 import com.chowchow.os.chowchow.helper.DirectionFinder;
+import com.chowchow.os.chowchow.helper.GetNearbyPlacesData;
 import com.chowchow.os.chowchow.model.Route;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -79,7 +81,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     Marker mCurrLocationMarker;
     static public final int REQUEST_LOCATION = 1;
 
-    private Button btnFindPath;
+    private Button btnFindPath, btnRestaurant, btnHotel,btnATM, btnAirport, btnCoffee, btnGas, btnHospital;
+    private TextView tvDuration, tvDistance;
     private List<Marker> originMarkers = new ArrayList<>();
     private List<Marker> destinationMarkers = new ArrayList<>();
     private List<Polyline> polylinePaths = new ArrayList<>();
@@ -94,7 +97,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
+
+        tvDistance = (TextView) view.findViewById(R.id.tvDistance);
+        tvDuration = (TextView) view.findViewById(R.id.tvDuration);
+
         btnFindPath = (Button) view.findViewById(R.id.btnFindPath);
+        btnRestaurant = (Button) view.findViewById(R.id.btnRestaurant);
+        btnHotel = (Button) view.findViewById(R.id.btnHotel);
+        btnATM = (Button) view.findViewById(R.id.btnATM);
+        btnHospital = (Button) view.findViewById(R.id.btnHospital);
+        btnGas = (Button) view.findViewById(R.id.btnGas);
+        btnCoffee = (Button) view.findViewById(R.id.btnCoffee);
+
         locationMap = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
         locationMap.getMapAsync(this);
 
@@ -133,6 +147,114 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                 sendRequest();
             }
         });
+
+        btnRestaurant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("onClick", "Button is Clicked");
+                mGoogleMap.clear();
+                tvDistance.setText("0 km");
+                tvDuration.setText("0 min");
+                String url = getUrl(mLastLocation.getLatitude(), mLastLocation.getLongitude(), Constant.RESTAURENT);
+                Object[] DataTransfer = new Object[2];
+                DataTransfer[0] = mGoogleMap;
+                DataTransfer[1] = url;
+                Log.d("onClick", url);
+                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+                getNearbyPlacesData.execute(DataTransfer);
+                Toast.makeText(getContext(),"Nhà hàng xung quanh bán kính 5km", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        btnHotel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("onClick", "Button is Clicked");
+                mGoogleMap.clear();
+                tvDistance.setText("0 km");
+                tvDuration.setText("0 min");
+                String url = getUrl(mLastLocation.getLatitude(), mLastLocation.getLongitude(), Constant.HOTEL);
+                Object[] DataTransfer = new Object[2];
+                DataTransfer[0] = mGoogleMap;
+                DataTransfer[1] = url;
+                Log.d("onClick", url);
+                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+                getNearbyPlacesData.execute(DataTransfer);
+                Toast.makeText(getContext(),"Khách sạn xung quanh bán kính 5km", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        btnHospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("onClick", "Button is Clicked");
+                mGoogleMap.clear();
+                tvDistance.setText("0 km");
+                tvDuration.setText("0 min");
+                String url = getUrl(mLastLocation.getLatitude(), mLastLocation.getLongitude(), Constant.HOSPITAL);
+                Object[] DataTransfer = new Object[2];
+                DataTransfer[0] = mGoogleMap;
+                DataTransfer[1] = url;
+                Log.d("onClick", url);
+                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+                getNearbyPlacesData.execute(DataTransfer);
+                Toast.makeText(getContext(),"Bệnh viện xung quanh bán kính 5km", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        btnATM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("onClick", "Button is Clicked");
+                mGoogleMap.clear();
+                tvDistance.setText("0 km");
+                tvDuration.setText("0 min");
+                String url = getUrl(mLastLocation.getLatitude(), mLastLocation.getLongitude(), Constant.ATM);
+                Object[] DataTransfer = new Object[2];
+                DataTransfer[0] = mGoogleMap;
+                DataTransfer[1] = url;
+                Log.d("onClick", url);
+                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+                getNearbyPlacesData.execute(DataTransfer);
+                Toast.makeText(getContext(),"ATM xung quanh bán kính 5km", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        btnGas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("onClick", "Button is Clicked");
+                mGoogleMap.clear();
+                tvDistance.setText("0 km");
+                tvDuration.setText("0 min");
+                String url = getUrl(mLastLocation.getLatitude(), mLastLocation.getLongitude(), Constant.GAS_STATION);
+                Object[] DataTransfer = new Object[2];
+                DataTransfer[0] = mGoogleMap;
+                DataTransfer[1] = url;
+                Log.d("onClick", url);
+                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+                getNearbyPlacesData.execute(DataTransfer);
+                Toast.makeText(getContext(),"Trạm xăng xung quanh bán kính 5km", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        btnCoffee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("onClick", "Button is Clicked");
+                mGoogleMap.clear();
+                tvDistance.setText("0 km");
+                tvDuration.setText("0 min");
+                String url = getUrl(mLastLocation.getLatitude(), mLastLocation.getLongitude(), Constant.CAFE);
+                Object[] DataTransfer = new Object[2];
+                DataTransfer[0] = mGoogleMap;
+                DataTransfer[1] = url;
+                Log.d("onClick", url);
+                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+                getNearbyPlacesData.execute(DataTransfer);
+                Toast.makeText(getContext(),"Coffee xung quanh bán kính 5km", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -148,6 +270,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         if (mGoogleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
+    }
+
+    private String getUrl(double latitude, double longitude, String nearbyPlace) {
+
+        StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        googlePlacesUrl.append("location=" + latitude + "," + longitude);
+        googlePlacesUrl.append("&radius=" + Constant.PROXIMITY_RADIUS);
+        googlePlacesUrl.append("&type=" + nearbyPlace);
+        googlePlacesUrl.append("&sensor=true");
+        googlePlacesUrl.append("&key=" + Constant.GOOGLE_API_KEY);
+        Log.d("getUrl", googlePlacesUrl.toString());
+        return (googlePlacesUrl.toString());
     }
 
     @Override
@@ -345,8 +479,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
         for (Route route : routes) {
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 16));
-            ((TextView) getView().findViewById(R.id.tvDuration)).setText(route.duration.text);
-            ((TextView) getView().findViewById(R.id.tvDistance)).setText(route.distance.text);
+            tvDistance.setText(route.duration.text);
+            tvDistance.setText(route.distance.text);
 
             originMarkers.add(mGoogleMap.addMarker(new MarkerOptions()
                     .title(route.startAddress)

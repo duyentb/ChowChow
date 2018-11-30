@@ -15,23 +15,23 @@ import android.widget.TextView;
 
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.callback.ItemClickListener;
+import com.chowchow.os.chowchow.model.Hotel;
 import com.chowchow.os.chowchow.model.Restaurant;
-import com.chowchow.os.chowchow.model.Shop;
+import com.chowchow.os.chowchow.ui.view.main.view.HotelActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.HotelDetailActivity;
 import com.chowchow.os.chowchow.ui.view.main.view.RestaurantActivity;
 import com.chowchow.os.chowchow.ui.view.main.view.RestaurantDetailActivity;
-import com.chowchow.os.chowchow.ui.view.main.view.ShoppingActivity;
-import com.chowchow.os.chowchow.ui.view.main.view.ShoppingDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHolder> implements Filterable {
+public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.ViewHolder> implements Filterable {
     private Context context;
-    private ArrayList<Shop> mArrayList;
-    private ArrayList<Shop> mFilteredList;
+    private ArrayList<Hotel> mArrayList;
+    private ArrayList<Hotel> mFilteredList;
     private ItemClickListener itemClickListener;
 
-    public ShoppingAdapter(ArrayList<Shop> arrayList, ItemClickListener listener) {
+    public HotelAdapter(ArrayList<Hotel> arrayList, ItemClickListener listener) {
         mArrayList = arrayList;
         mFilteredList = arrayList;
         itemClickListener = listener;
@@ -39,23 +39,24 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
 
     @NonNull
     @Override
-    public ShoppingAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.shopping_item, viewGroup, false);
-        return new ShoppingAdapter.ViewHolder(view);
+    public HotelAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.hotel_item, viewGroup, false);
+        return new HotelAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ShoppingAdapter.ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(@NonNull HotelAdapter.ViewHolder viewHolder, final int position) {
         String imgURL = mFilteredList.get(position).getAttrImage().get(0).getLink();
-        Picasso.get().load(imgURL).centerCrop().resize(120, 90).into(viewHolder.iv_shop_image);
-        viewHolder.tv_shop_name.setText(mFilteredList.get(position).getShopName());
-        viewHolder.tv_shop_address.setText(mFilteredList.get(position).getShopAddress());
+        Picasso.get().load(imgURL).centerCrop().resize(360, 270).into(viewHolder.iv_hotel_image);
+        viewHolder.tv_hotel_name.setText(mFilteredList.get(position).getHotelName());
+        viewHolder.tv_hotel_address.setText(mFilteredList.get(position).getHotelAddress());
+        //viewHolder.btn_guide_map.setText(mFilteredList.get(i).getApi());
 
         viewHolder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
-                Intent intent = new Intent(view.getContext(), ShoppingDetailActivity.class);
-                intent.putExtra(ShoppingActivity.SHOPPING_DETAIL_KEY, mFilteredList.get(position));
+                Intent intent = new Intent(view.getContext(), HotelDetailActivity.class);
+                intent.putExtra(HotelActivity.HOTEL_DETAIL_KEY, mFilteredList.get(position));
                 view.getContext().startActivity(intent);
             }
         });
@@ -86,13 +87,13 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
                     mFilteredList = mArrayList;
                 } else {
 
-                    ArrayList<Shop> filteredList = new ArrayList<>();
+                    ArrayList<Hotel> filteredList = new ArrayList<>();
 
-                    for (Shop shop : mArrayList) {
+                    for (Hotel hotel : mArrayList) {
 
-                        if (shop.getShopName().toLowerCase().contains(charString) || shop.getShopAddress().toLowerCase().contains(charString)) {
+                        if (hotel.getHotelName().toLowerCase().contains(charString) || hotel.getHotelAddress().toLowerCase().contains(charString)) {
 
-                            filteredList.add(shop);
+                            filteredList.add(hotel);
                         }
                     }
 
@@ -106,29 +107,28 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                mFilteredList = (ArrayList<Shop>) filterResults.values;
+                mFilteredList = (ArrayList<Hotel>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
-        private TextView tv_shop_name,tv_shop_address;
-        private ImageView iv_shop_image;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener {
+        private TextView tv_hotel_name,tv_hotel_address;
+        private ImageView iv_hotel_image;
         private AppCompatButton btn_guide_map;
         private ItemClickListener itemClickListener;
 
         public ViewHolder(View view) {
             super(view);
 
-            tv_shop_name = (TextView)view.findViewById(R.id.tv_shop_name);
-            tv_shop_address = (TextView)view.findViewById(R.id.tv_shop_address);
-            iv_shop_image = (ImageView) view.findViewById(R.id.iv_shop_image);
+            tv_hotel_name = (TextView)view.findViewById(R.id.tv_hotel_name);
+            tv_hotel_address = (TextView)view.findViewById(R.id.tv_hotel_address);
+            iv_hotel_image = (ImageView) view.findViewById(R.id.iv_hotel_image);
             btn_guide_map = (AppCompatButton) view.findViewById(R.id.btn_guide_map);
 
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
-
         }
 
         public void setItemClickListener(ItemClickListener itemClickListener)

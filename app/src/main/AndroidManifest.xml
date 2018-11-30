@@ -67,7 +67,12 @@
         <activity android:name=".ui.view.main.view.RestaurantDetailActivity" />
         <activity android:name=".ui.view.main.view.DirectionActivity" />
         <activity android:name=".ui.view.main.view.TourDayDetailActivity" />
-        <activity android:name=".ui.view.main.view.EventDetailActivity"></activity>
+        <activity android:name=".ui.view.main.view.EventDetailActivity" />
+        <activity android:name=".ui.view.main.view.ShoppingDetailActivity" />
+        <activity android:name=".ui.view.main.view.ItineraryDetailActivity" />
+        <activity android:name=".ui.view.main.view.HotelActivity" />
+        <activity android:name=".ui.view.main.view.HotelDetailActivity" />
+        <activity android:name=".ui.view.main.view.WeatherActivity"></activity>
     </application>
 
 </manifest>
