@@ -18,8 +18,8 @@ import com.chowchow.os.chowchow.model.AttrImage;
 import com.chowchow.os.chowchow.model.Tour;
 import com.chowchow.os.chowchow.model.TourDetail;
 import com.chowchow.os.chowchow.model.TourInfo;
-import com.chowchow.os.chowchow.ui.view.main.view.TourDayDetailActivity;
-import com.chowchow.os.chowchow.ui.view.main.view.TourDetailActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.tour.TourDayDetailActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.tour.TourDetailActivity;
 import com.chowchow.os.chowchow.utils.CommonUtils;
 
 import java.text.SimpleDateFormat;

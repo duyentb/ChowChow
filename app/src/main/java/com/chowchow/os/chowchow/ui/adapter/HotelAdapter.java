@@ -16,11 +16,8 @@ import android.widget.TextView;
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.callback.ItemClickListener;
 import com.chowchow.os.chowchow.model.Hotel;
-import com.chowchow.os.chowchow.model.Restaurant;
-import com.chowchow.os.chowchow.ui.view.main.view.HotelActivity;
-import com.chowchow.os.chowchow.ui.view.main.view.HotelDetailActivity;
-import com.chowchow.os.chowchow.ui.view.main.view.RestaurantActivity;
-import com.chowchow.os.chowchow.ui.view.main.view.RestaurantDetailActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.hotel.HotelActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.hotel.HotelDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

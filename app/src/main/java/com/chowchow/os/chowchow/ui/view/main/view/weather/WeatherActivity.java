@@ -1,4 +1,4 @@
-package com.chowchow.os.chowchow.ui.view.main.view;
+package com.chowchow.os.chowchow.ui.view.main.view.weather;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import com.chowchow.os.chowchow.model.Attractions;
 import com.chowchow.os.chowchow.model.AttractionsModel;
 import com.chowchow.os.chowchow.model.weather.WeatherModel;
 import com.chowchow.os.chowchow.ui.adapter.AttractionsAdapter;
+import com.chowchow.os.chowchow.ui.view.main.view.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -71,7 +72,7 @@ public class WeatherActivity extends AppCompatActivity {
         /*
         Invoke the method corresponding to the HTTP request which will return a Call object. This Call object will used to send the actual network request with the specified parameters
         */
-        Call<WeatherModel> call = mService.getWeatherByCity(Constant.WEATHER_LOCATION, Constant.OPEN_WEATHER_MAP_API_KEY);
+        Call<WeatherModel> call = mService.getWeatherByCity(Constant.WEATHER_LOCATION, Constant.OPEN_WEATHER_MAP_API_KEY, Constant.VIETNAMESE_LANGUAGE);
         /*
         This is the line which actually sends a network request. Calling enqueue() executes a call asynchronously. It has two callback listeners which will invoked on the main thread
         */
@@ -81,9 +82,10 @@ public class WeatherActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     WeatherModel jsonResponse = response.body();
-                    TextView txtTemperature=(TextView) findViewById(R.id.txtTemperature);
+                    TextView txtTemperature=(TextView) findViewById(R.id.tv_temperature);
                     TextView txtCurrentAddressName=(TextView) findViewById(R.id.txtCurrentAddressName);
-                    ImageView imageView=(ImageView) findViewById(R.id.imgBauTroi);
+                    TextView tv_weather = (TextView) findViewById(R.id.tv_weather);
+                    ImageView imageView=(ImageView) findViewById(R.id.weather_icon);
                     TextView txtMaxtemp=(TextView) findViewById(R.id.txtMaxTemp);
                     TextView txtMinTemp=(TextView) findViewById(R.id.txtMinTemp);
                     TextView txtWind=(TextView) findViewById(R.id.txtWind);
@@ -98,6 +100,8 @@ public class WeatherActivity extends AppCompatActivity {
                     String mintemp= format.format(jsonResponse.getMain().getTempMin()-273.15)+"°C";
                     String wind= jsonResponse.getWind().getSpeed()+" m/s";
                     String mesg = jsonResponse.getWeather().get(0).getMain();
+                    String weather = jsonResponse.getWeather().get(0).getDescription();
+                    weather = weather.substring(0, 1).toUpperCase() + weather.substring(1);
                     //  Translator translate = Translator.getInstance();
                     // String cloudiness=mesg+" ("+translate.translate(mesg, Language.ENGLISH, Language.VIETNAMESE)+")";
                     String cloudiness=mesg;
@@ -113,6 +117,7 @@ public class WeatherActivity extends AppCompatActivity {
                     txtTemperature.setText(format.format(temperature)+"°C");
                     String imgURL = Constant.OPEN_WEATHER_MAP_API_BASE_URL + "img/w/" + jsonResponse.getWeather().get(0).getIcon() + ".png";
                     Picasso.get().load(imgURL).centerCrop().resize(72, 72).into(imageView);
+                    tv_weather.setText(weather);
                     txtMaxtemp.setText(maxtemp);
                     txtMinTemp.setText(mintemp);
                     txtWind.setText(wind);

@@ -9,16 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.chowchow.os.chowchow.model.AttrImage;
-import com.chowchow.os.chowchow.model.ImageModel;
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.model.Tour;
 import com.chowchow.os.chowchow.ui.view.main.view.SuggestTourFragment;
-import com.chowchow.os.chowchow.ui.view.main.view.TourDetailActivity;
-import com.chowchow.os.chowchow.ui.view.main.view.WeatherActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.tour.TourDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -56,7 +52,6 @@ public class SlidingImage_Adapter extends PagerAdapter {
         assert imageLayout != null;
         final ImageView imageView = (ImageView) imageLayout.findViewById(R.id.image);
         final TextView tv_tour_name = (TextView) imageLayout.findViewById(R.id.tv_tour_name);
-        final LinearLayout ll_weather = (LinearLayout) imageLayout.findViewById(R.id.ll_weather);
 
         String imgURL = mArrayList.get(position).getAttrImage().get(0).getLink();
         Picasso.get().load(imgURL).centerCrop().resize(360, 270).into(imageView);
@@ -72,14 +67,6 @@ public class SlidingImage_Adapter extends PagerAdapter {
         });
 
         tv_tour_name.setText(mArrayList.get(position).getTourInfo().getTourName());
-
-        ll_weather.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(), WeatherActivity.class);
-                view.getContext().startActivity(intent);
-            }
-        });
 
         view.addView(imageLayout, 0);
 

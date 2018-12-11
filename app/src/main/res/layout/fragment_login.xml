@@ -80,35 +80,6 @@
                 android:autoLink="all"/>
         </LinearLayout>
 
-
-        <Button
-            android:id="@+id/fb"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#3B5991"
-            android:paddingEnd="20dp"
-            android:paddingStart="20dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/login_with_facebook"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            />
-        <Button
-            android:id="@+id/google_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#dd4b39"
-            android:paddingEnd="20dp"
-            android:paddingStart="20dp"
-            android:text="@string/login_with_gmail"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="30dp"

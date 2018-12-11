@@ -1,4 +1,4 @@
-package com.chowchow.os.chowchow.ui.view.main.view;
+package com.chowchow.os.chowchow.ui.view.main.view.tour;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.model.TourDetail;
 import com.chowchow.os.chowchow.ui.adapter.TourAttrAdapter;
+import com.chowchow.os.chowchow.ui.view.main.view.MainActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.tour.TourDetailActivity;
 
 import java.util.ArrayList;
 

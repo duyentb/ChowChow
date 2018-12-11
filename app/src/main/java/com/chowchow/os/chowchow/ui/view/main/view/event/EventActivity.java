@@ -1,8 +1,8 @@
-package com.chowchow.os.chowchow.ui.view.main.view;
+package com.chowchow.os.chowchow.ui.view.main.view.event;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,10 +14,11 @@ import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.api.ApiUtils;
 import com.chowchow.os.chowchow.api.APIService;
 import com.chowchow.os.chowchow.callback.ItemClickListener;
-import com.chowchow.os.chowchow.model.Restaurant;
-import com.chowchow.os.chowchow.model.RestaurantModel;
-import com.chowchow.os.chowchow.ui.adapter.AttractionsAdapter;
-import com.chowchow.os.chowchow.ui.adapter.RestaurantAdapter;
+import com.chowchow.os.chowchow.model.Event;
+import com.chowchow.os.chowchow.model.EventModel;
+import com.chowchow.os.chowchow.ui.adapter.EventAdapter;
+import com.chowchow.os.chowchow.ui.view.main.view.DirectionActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.MainActivity;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -26,30 +27,31 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RestaurantActivity extends AppCompatActivity {
+public class EventActivity extends AppCompatActivity {
+
+    public static final String EVENT_DETAIL_KEY = "EVENT";
+
     private ImageView iv_back, imgAppName;
     private RecyclerView mRecyclerView;
     private SearchView editsearch;
-    private AVLoadingIndicatorView avi;
-    private RestaurantAdapter mAdapter;
+    private EventAdapter mAdapter;
     private APIService mService;
-    private ArrayList<Restaurant> mArrayList;
-
-    public static final String RESTAURANT_DETAIL_KEY = "RESTAURANT";
+    private ArrayList<Event> mArrayList;
+    private AVLoadingIndicatorView avi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restaurant);
-        mService = ApiUtils.getRestaurantService();
+        setContentView(R.layout.activity_event);
+
+        mService = ApiUtils.getEventService();
 
         initViews();
 
-        loadRestaurant();
+        loadEvent();
 
         // Locate the EditText in listview_main.xml
-        editsearch = (SearchView) findViewById(R.id.search_restaurant);
-        editsearch.setIconified(false);
+        editsearch = (SearchView) findViewById(R.id.search_event);
         editsearch.clearFocus();
         search(editsearch);
 
@@ -71,7 +73,7 @@ public class RestaurantActivity extends AppCompatActivity {
         });
 
         // Init loading animation
-        avi = (AVLoadingIndicatorView) findViewById(R.id.rest_loading_indicator);
+        avi = (AVLoadingIndicatorView) findViewById(R.id.event_loading_indicator);
     }
 
     @Override
@@ -80,7 +82,7 @@ public class RestaurantActivity extends AppCompatActivity {
     }
 
     private void initViews(){
-        mRecyclerView = (RecyclerView)findViewById(R.id.list_restaurant);
+        mRecyclerView = (RecyclerView)findViewById(R.id.list_event);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -107,45 +109,42 @@ public class RestaurantActivity extends AppCompatActivity {
         });
     }
 
-    public void loadRestaurant() {
-        // Show loading indicator
-//        startLoadingAnimation();
-
-        mService.getRestaurant().enqueue(new Callback<RestaurantModel>() {
+    public void loadEvent() {
+        mService.getEvent().enqueue(new Callback<EventModel>() {
             @Override
-            public void onResponse(Call<RestaurantModel> call, Response<RestaurantModel> response) {
+            public void onResponse(Call<EventModel> call, Response<EventModel> response) {
 
                 if(response.isSuccessful()) {
-                    RestaurantModel jsonResponse = response.body();
-                    mArrayList = new ArrayList<>(jsonResponse.getListRestaurant());
-                    mAdapter = new RestaurantAdapter(mArrayList, new ItemClickListener() {
+                    EventModel jsonResponse = response.body();
+                    mArrayList = new ArrayList<Event>(jsonResponse.getListEvent());
+                    mAdapter = new EventAdapter(mArrayList, new ItemClickListener() {
                         @Override
                         public void onClick(View view, int position, boolean isLongClick) {
                             Intent intent = new Intent(view.getContext(), DirectionActivity.class);
-                            intent.putExtra(RestaurantActivity.RESTAURANT_DETAIL_KEY, mArrayList.get(position));
+                            intent.putExtra(EventActivity.EVENT_DETAIL_KEY, mArrayList.get(position));
                             view.getContext().startActivity(intent);
                         }
                     });
                     mRecyclerView.setAdapter(mAdapter);
-
-                    // Hide loading indicator
-                    stopLoadingAnimation();
-                    Log.d("RestaurantActivity", "posts loaded from API");
-                } else {
-                    int statusCode  = response.code();
-                    stopLoadingAnimation();
+                    Log.d("EventActivity", "posts loaded from API");
+                }else {
+                    int statusCode = response.code();
                     eventBack();
-                    Log.d("RestaurantActivity", "Call API response code " + statusCode);
+                    Log.d("EventActivity", "Call API response code " + statusCode);
                     // handle request errors depending on status code
                 }
+
+                // Hide loading indicator
+                stopLoadingAnimation();
             }
 
             @Override
-            public void onFailure(Call<RestaurantModel> call, Throwable t) {
+            public void onFailure(Call<EventModel> call, Throwable t) {
+                // Hide loading indicator
                 stopLoadingAnimation();
                 eventBack();
                 Log.d("Error",t.getMessage());
-                Log.d("RestaurantActivity", "error loading from API");
+                Log.d("EventActivity", "error loading from API");
 
             }
         });
@@ -177,5 +176,4 @@ public class RestaurantActivity extends AppCompatActivity {
             }
         });
     }
-
 }

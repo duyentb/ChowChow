@@ -30,7 +30,10 @@ import com.chowchow.os.chowchow.ui.adapter.SuggestTourAdapter;
 import com.chowchow.os.chowchow.utils.CommonUtils;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -157,13 +160,17 @@ public class SuggestTourFragment extends Fragment {
                 if (response.isSuccessful()) {
                     TourModel jsonResponse = response.body();
                     mArrayList = new ArrayList<Tour>(jsonResponse.getData());
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+                    String currentDate = dateFormat.format(new Date());
+                    for (Tour tour : mArrayList) {
+                        tour.getTourInfo().setTourDayStart(currentDate);
+                    }
                     for (Tour tour : mArrayList) {
                         int budget = Integer.parseInt(tour.getTourInfo().getTourBudget());
-                        if (fromDate.equals(tour.getTourInfo().getTourDayStart())
-                                && duration.equals(tour.getTourInfo().getTourDuration())
-                                && (cost >= budget)
+                        if (duration.equals(tour.getTourInfo().getTourDuration())
+                                && (cost >= (budget - 100000))
                                 && CommonUtils.isMatchFavorite((ArrayList<Tag>) tour.getTourInfo().getTourFavorite(), listSelected)) {
-
+                            tour.getTourInfo().setTourDayStart(fromDate);
                             mFilterList.add(tour);
                         }
                     }

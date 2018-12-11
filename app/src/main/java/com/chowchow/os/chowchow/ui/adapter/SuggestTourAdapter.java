@@ -2,7 +2,6 @@ package com.chowchow.os.chowchow.ui.adapter;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +13,13 @@ import android.widget.TextView;
 
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.callback.ItemClickListener;
-import com.chowchow.os.chowchow.model.Attractions;
-import com.chowchow.os.chowchow.model.Tag;
 import com.chowchow.os.chowchow.model.Tour;
-import com.chowchow.os.chowchow.ui.view.main.view.AttractionsActivity;
-import com.chowchow.os.chowchow.ui.view.main.view.AttractionsDetailActivity;
 import com.chowchow.os.chowchow.ui.view.main.view.SuggestTourFragment;
-import com.chowchow.os.chowchow.ui.view.main.view.TourDetailActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.tour.TourDetailActivity;
 import com.chowchow.os.chowchow.utils.CommonUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SuggestTourAdapter extends RecyclerView.Adapter<SuggestTourAdapter.ViewHolder> implements Filterable {
     private ArrayList<Tour> mArrayList;

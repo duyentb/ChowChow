@@ -1,4 +1,4 @@
-package com.chowchow.os.chowchow.ui.view.main.view;
+package com.chowchow.os.chowchow.ui.view.main.view.event;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,16 +11,18 @@ import android.widget.TextView;
 
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.model.AttrImage;
-import com.chowchow.os.chowchow.model.Attractions;
 import com.chowchow.os.chowchow.model.Event;
 import com.chowchow.os.chowchow.ui.adapter.AttrImageAdapter;
+import com.chowchow.os.chowchow.ui.view.main.view.DirectionActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.MainActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.event.EventActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class EventDetailActivity extends AppCompatActivity {
     private ImageView iv_event_image, imgAppName, iv_map, iv_back;
-    private TextView tv_event_name, tv_event_address, tv_working_time, tv_event_detail;
+    private TextView tv_event_name, tv_event_address, tv_working_time, tv_event_detail, tv_event_price;
     private RecyclerView mRecyclerView;
     private AttrImageAdapter attrImageAdapter;
     private ArrayList<AttrImage> arrAttrImage;
@@ -53,6 +55,7 @@ public class EventDetailActivity extends AppCompatActivity {
         tv_event_address = (TextView) findViewById(R.id.tv_event_address);
         tv_working_time = (TextView) findViewById(R.id.tv_working_time);
         tv_event_detail = (TextView) findViewById(R.id.tv_event_detail);
+        tv_event_price = (TextView) findViewById(R.id.tv_event_price);
         iv_map = (ImageView) findViewById(R.id.iv_map);
 
         mRecyclerView = (RecyclerView)findViewById(R.id.list_event_image);
@@ -76,12 +79,24 @@ public class EventDetailActivity extends AppCompatActivity {
         tv_event_name.setText(event.getEventName());
         tv_event_address.setText(event.getEventAddress());
 
-        String working_time = "";
-        if (!("".equals(event.getOpeningTimeStart())  && "".equals(event.getOpeningTimeEnd()))) {
-            working_time = event.getOpeningTimeStart() + " - " + event.getOpeningTimeEnd();
+        String working_time, timeStart, timeEnd;
+        timeStart = event.getOpeningTimeStart();
+        timeEnd = event.getOpeningTimeEnd();
+        if ("".equals(timeStart)  || "".equals(timeEnd)) {
+            working_time = "24/24";
+        } else {
+            working_time = timeStart + " - " + timeEnd;
         }
-
         tv_working_time.setText(working_time);
+
+        String price;
+        if (!"".equals(event.getPrice())) {
+            price = event.getPrice();
+        } else {
+            price = "Miễn phí";
+        }
+        tv_event_price.setText(price);
+
         tv_event_detail.setText(event.getDetail());
 
 

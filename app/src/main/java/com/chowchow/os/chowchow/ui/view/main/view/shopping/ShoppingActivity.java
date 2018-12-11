@@ -1,4 +1,4 @@
-package com.chowchow.os.chowchow.ui.view.main.view;
+package com.chowchow.os.chowchow.ui.view.main.view.shopping;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -14,9 +14,11 @@ import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.api.ApiUtils;
 import com.chowchow.os.chowchow.api.APIService;
 import com.chowchow.os.chowchow.callback.ItemClickListener;
-import com.chowchow.os.chowchow.model.Attractions;
-import com.chowchow.os.chowchow.model.AttractionsModel;
-import com.chowchow.os.chowchow.ui.adapter.AttractionsAdapter;
+import com.chowchow.os.chowchow.model.Shop;
+import com.chowchow.os.chowchow.model.ShoppingModel;
+import com.chowchow.os.chowchow.ui.adapter.ShoppingAdapter;
+import com.chowchow.os.chowchow.ui.view.main.view.DirectionActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.MainActivity;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -25,30 +27,30 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AttractionsActivity extends AppCompatActivity {
+public class ShoppingActivity extends AppCompatActivity {
+    public static final String SHOPPING_DETAIL_KEY = "SHOPPING";
     private ImageView iv_back, imgAppName;
     private RecyclerView mRecyclerView;
     private SearchView editsearch;
     private AVLoadingIndicatorView avi;
-    private AttractionsAdapter mAdapter;
+    private ShoppingAdapter mAdapter;
     private APIService mService;
-    private ArrayList<Attractions> mArrayList;
-
-    public static final String ATTRACTIONS_DETAIL_KEY = "ATTRACTIONS";
+    private ArrayList<Shop> mArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_attractions);
+        setContentView(R.layout.activity_shopping);
 
-        mService = ApiUtils.getAttractionsService();
+        mService = ApiUtils.getShoppingService();
 
         initViews();
 
-        loadAttractions();
+        loadShopping();
 
         // Locate the EditText in listview_main.xml
-        editsearch = (SearchView) findViewById(R.id.search_attractions);
+        editsearch = (SearchView) findViewById(R.id.search_shopping);
+        editsearch.setIconified(false);
         editsearch.clearFocus();
         search(editsearch);
 
@@ -70,7 +72,7 @@ public class AttractionsActivity extends AppCompatActivity {
         });
 
         // Init loading animation
-        avi = (AVLoadingIndicatorView) findViewById(R.id.attr_loading_indicator);
+        avi = (AVLoadingIndicatorView) findViewById(R.id.shop_loading_indicator);
     }
 
     @Override
@@ -78,8 +80,8 @@ public class AttractionsActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private void initViews() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.list_attractions);
+    private void initViews(){
+        mRecyclerView = (RecyclerView)findViewById(R.id.list_shopping);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -106,31 +108,32 @@ public class AttractionsActivity extends AppCompatActivity {
         });
     }
 
-    public void loadAttractions() {
+    public void loadShopping() {
         // Show loading indicator
-//        startLoadingAnimation();
+        //startLoadingAnimation();
 
-        mService.getAttractions().enqueue(new Callback<AttractionsModel>() {
+        mService.getShopping().enqueue(new Callback<ShoppingModel>() {
             @Override
-            public void onResponse(Call<AttractionsModel> call, Response<AttractionsModel> response) {
+            public void onResponse(Call<ShoppingModel> call, Response<ShoppingModel> response) {
 
-                if (response.isSuccessful()) {
-                    AttractionsModel jsonResponse = response.body();
-                    mArrayList = new ArrayList<Attractions>(jsonResponse.getListAttractions());
-                    mAdapter = new AttractionsAdapter(mArrayList, new ItemClickListener() {
+                if(response.isSuccessful()) {
+                    ShoppingModel jsonResponse = response.body();
+                    mArrayList = new ArrayList<Shop>(jsonResponse.getListShopping());
+                    mAdapter = new ShoppingAdapter(mArrayList, new ItemClickListener() {
                         @Override
                         public void onClick(View view, int position, boolean isLongClick) {
                             Intent intent = new Intent(view.getContext(), DirectionActivity.class);
-                            intent.putExtra(AttractionsActivity.ATTRACTIONS_DETAIL_KEY, mArrayList.get(position));
+                            intent.putExtra(ShoppingActivity.SHOPPING_DETAIL_KEY, mArrayList.get(position));
                             view.getContext().startActivity(intent);
                         }
                     });
                     mRecyclerView.setAdapter(mAdapter);
-                    Log.d("AttractionsActivity", "posts loaded from API");
+
+                    Log.d("ShoppingActivity", "posts loaded from API");
                 } else {
-                    int statusCode = response.code();
+                    int statusCode  = response.code();
                     eventBack();
-                    Log.d("AttractionsActivity", "Call API response code " + statusCode);
+                    Log.d("ShoppingActivity", "Call API response code " + statusCode);
                     // handle request errors depending on status code
                 }
 
@@ -139,13 +142,12 @@ public class AttractionsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<AttractionsModel> call, Throwable t) {
+            public void onFailure(Call<ShoppingModel> call, Throwable t) {
                 // Hide loading indicator
                 stopLoadingAnimation();
                 eventBack();
-                Log.d("Error", t.getMessage());
-                Log.d("AttractionsActivity", "error loading from API");
-
+                Log.d("Error",t.getMessage());
+                Log.d("ShoppingActivity", "error loading from API");
             }
         });
     }

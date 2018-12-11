@@ -1,5 +1,7 @@
 package com.chowchow.os.chowchow.realm;
 
+import android.util.Log;
+
 import com.chowchow.os.chowchow.model.User;
 
 import io.realm.Realm;
@@ -23,6 +25,13 @@ public class UserDAO {
     public User getUser(String userName, String password) {
         realm.beginTransaction();
         User user = realm.where(User.class).equalTo("userName", userName).equalTo("password", password).findFirst();
+        realm.commitTransaction();
+        return user;
+    }
+
+    public User getUserUpdate(String userName) {
+        realm.beginTransaction();
+        User user = realm.where(User.class).equalTo("userName", userName).findFirst();
         realm.commitTransaction();
         return user;
     }
@@ -58,7 +67,18 @@ public class UserDAO {
     // update
     public void updateUser(User user) {
         realm.beginTransaction();
-        realm.insertOrUpdate(user);
+        User userUpdate = realm.where(User.class).equalTo("userName", user.getUserName()).findFirst();
+        Log.d("userUpdate",""+userUpdate);
+        if (userUpdate != null) {
+            userUpdate.setName(user.getName());
+            userUpdate.setEmail(user.getEmail());
+            userUpdate.setPhone(user.getPhone());
+            userUpdate.setPassword(user.getPassword());
+            userUpdate.setAvatar(user.getAvatar());
+            userUpdate.setLogin(true);
+            realm.copyToRealmOrUpdate(userUpdate);
+        }
+
         realm.commitTransaction();
     }
 

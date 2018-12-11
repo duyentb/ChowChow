@@ -15,8 +15,8 @@ import android.widget.TextView;
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.callback.ItemClickListener;
 import com.chowchow.os.chowchow.model.Attractions;
-import com.chowchow.os.chowchow.ui.view.main.view.AttractionsActivity;
-import com.chowchow.os.chowchow.ui.view.main.view.AttractionsDetailActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.attractions.AttractionsActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.attractions.AttractionsDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

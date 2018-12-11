@@ -18,9 +18,10 @@ import java.util.List;
 
 public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
 
-    String googlePlacesData;
-    GoogleMap mMap;
-    String url;
+    private String googlePlacesData;
+    private GoogleMap mMap;
+    private String url;
+    private String type;
 
     @Override
     protected String doInBackground(Object... params) {
@@ -28,6 +29,7 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
             Log.d("GetNearbyPlacesData", "doInBackground entered");
             mMap = (GoogleMap) params[0];
             url = (String) params[1];
+            type = (String) params[2];
             DownloadUrl downloadUrl = new DownloadUrl();
             googlePlacesData = downloadUrl.readUrl(url);
             Log.d("GooglePlacesReadTask", "doInBackground Exit");
@@ -62,17 +64,17 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
 
             markerOptions.position(latLng);
             markerOptions.title(placeName + " : " + vicinity);
-            if (types.contains(Constant.RESTAURENT)) {
+            if (Constant.RESTAURENT.equals(type)) {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_restaurant_36dp));
-            } else if (types.contains(Constant.HOTEL)) {
+            } else if (Constant.HOTEL.equals(type)) {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_hotel_36dp));
-            } else if (types.contains(Constant.HOSPITAL)) {
+            } else if (Constant.HOSPITAL.equals(type)) {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_hostpital_36dp));
-            } else if (types.contains(Constant.GAS_STATION)) {
+            } else if (Constant.GAS_STATION.equals(type)) {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_gas_36dp));
-            } else if (types.contains(Constant.ATM)) {
+            } else if (Constant.ATM.equals(type)) {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_atm_36dp));
-            } else if (types.contains(Constant.CAFE)) {
+            } else if (Constant.CAFE.equals(type)) {
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_coffee_36dp));
             } else {
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));

@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="com.dev.cromer.jason.coverme.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -57,22 +58,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.view.main.view.AttractionsActivity" />
-        <activity android:name=".ui.view.main.view.TourDetailActivity" />
-        <activity android:name=".ui.view.main.view.UtilitiesActivity" />
-        <activity android:name=".ui.view.main.view.RestaurantActivity" />
-        <activity android:name=".ui.view.main.view.ShoppingActivity" />
-        <activity android:name=".ui.view.main.view.EventActivity" />
-        <activity android:name=".ui.view.main.view.AttractionsDetailActivity" />
-        <activity android:name=".ui.view.main.view.RestaurantDetailActivity" />
+        <activity android:name=".ui.view.main.view.attractions.AttractionsActivity" />
+        <activity android:name=".ui.view.main.view.tour.TourDetailActivity" />
+        <activity android:name=".ui.view.main.view.restaurant.RestaurantActivity" />
+        <activity android:name=".ui.view.main.view.shopping.ShoppingActivity" />
+        <activity android:name=".ui.view.main.view.event.EventActivity" />
+        <activity android:name=".ui.view.main.view.attractions.AttractionsDetailActivity" />
+        <activity android:name=".ui.view.main.view.restaurant.RestaurantDetailActivity" />
         <activity android:name=".ui.view.main.view.DirectionActivity" />
-        <activity android:name=".ui.view.main.view.TourDayDetailActivity" />
-        <activity android:name=".ui.view.main.view.EventDetailActivity" />
-        <activity android:name=".ui.view.main.view.ShoppingDetailActivity" />
-        <activity android:name=".ui.view.main.view.ItineraryDetailActivity" />
-        <activity android:name=".ui.view.main.view.HotelActivity" />
-        <activity android:name=".ui.view.main.view.HotelDetailActivity" />
-        <activity android:name=".ui.view.main.view.WeatherActivity"></activity>
+        <activity android:name=".ui.view.main.view.tour.TourDayDetailActivity" />
+        <activity android:name=".ui.view.main.view.event.EventDetailActivity" />
+        <activity android:name=".ui.view.main.view.shopping.ShoppingDetailActivity" />
+        <activity android:name=".ui.view.main.view.tour.ItineraryDetailActivity" />
+        <activity android:name=".ui.view.main.view.hotel.HotelActivity" />
+        <activity android:name=".ui.view.main.view.hotel.HotelDetailActivity" />
+        <activity android:name=".ui.view.main.view.weather.WeatherActivity"></activity>
     </application>
 
 </manifest>

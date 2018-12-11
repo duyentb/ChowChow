@@ -11,6 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chowchow.os.chowchow.R;
+import com.chowchow.os.chowchow.ui.view.main.view.attractions.AttractionsActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.event.EventActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.hotel.HotelActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.restaurant.RestaurantActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.shopping.ShoppingActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.weather.WeatherActivity;
 
 public class DashboardFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -97,6 +103,16 @@ public class DashboardFragment extends Fragment {
             public void onClick(View v)
             {
                 Intent intent = new Intent(getActivity(), HotelActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CardView weatherCard = (CardView) view.findViewById(R.id.card_weather);
+        weatherCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(getActivity(), WeatherActivity.class);
                 startActivity(intent);
             }
         });

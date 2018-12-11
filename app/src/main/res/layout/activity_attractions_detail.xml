@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.chowchow.os.chowchow.ui.view.main.view.AttractionsDetailActivity">
+    tools:context="com.chowchow.os.chowchow.ui.view.main.view.attractions.AttractionsDetailActivity">
 
     <RelativeLayout
         android:id="@+id/main_header"
@@ -65,7 +65,6 @@
                         android:id="@+id/iv_map"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
                         android:layout_marginStart="10dp"
                         android:src="@drawable/ic_map_1"
                         android:tint="@color/white"
@@ -149,6 +148,27 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="08:00 - 22:00"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Giá tham khảo: "
+                            android:textStyle="bold"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/tv_attr_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="200.000 VNĐ"
                             />
 
                     </LinearLayout>

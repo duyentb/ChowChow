@@ -1,4 +1,4 @@
-package com.chowchow.os.chowchow.ui.view.main.view;
+package com.chowchow.os.chowchow.ui.view.main.view.attractions;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,22 +6,23 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.model.AttrImage;
 import com.chowchow.os.chowchow.model.Attractions;
-import com.chowchow.os.chowchow.model.Specialty;
 import com.chowchow.os.chowchow.ui.adapter.AttrImageAdapter;
+import com.chowchow.os.chowchow.ui.view.main.view.DirectionActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.MainActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.attractions.AttractionsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class AttractionsDetailActivity extends AppCompatActivity {
     private ImageView iv_attr_image, imgAppName, iv_map, iv_back;
-    private TextView tv_attr_name, tv_attr_address, tv_working_time, tv_attr_detail;
+    private TextView tv_attr_name, tv_attr_address, tv_working_time, tv_attr_detail, tv_attr_price;
     private RecyclerView mRecyclerView;
     private AttrImageAdapter attrImageAdapter;
     private ArrayList<AttrImage> arrAttrImage;
@@ -54,6 +55,7 @@ public class AttractionsDetailActivity extends AppCompatActivity {
         tv_attr_address = (TextView) findViewById(R.id.tv_attr_address);
         tv_working_time = (TextView) findViewById(R.id.tv_working_time);
         tv_attr_detail = (TextView) findViewById(R.id.tv_attr_detail);
+        tv_attr_price = (TextView) findViewById(R.id.tv_attr_price);
         iv_map = (ImageView) findViewById(R.id.iv_map);
 
         mRecyclerView = (RecyclerView)findViewById(R.id.list_attr_image);
@@ -77,12 +79,24 @@ public class AttractionsDetailActivity extends AppCompatActivity {
         tv_attr_name.setText(attractions.getAttrName());
         tv_attr_address.setText(attractions.getAttrAddress());
 
-        String working_time = "";
-        if (!("".equals(attractions.getOpeningTimeStart())  && "".equals(attractions.getOpeningTimeEnd()))) {
-            working_time = attractions.getOpeningTimeStart() + " - " + attractions.getOpeningTimeEnd();
+        String working_time, timeStart, timeEnd;
+        timeStart = attractions.getOpeningTimeStart();
+        timeEnd = attractions.getOpeningTimeEnd();
+        if ("".equals(timeStart)  || "".equals(timeEnd)) {
+            working_time = "24/24";
+        } else {
+            working_time = timeStart + " - " + timeEnd;
         }
-
         tv_working_time.setText(working_time);
+
+        String price;
+        if (!"".equals(attractions.getPrice())) {
+            price = attractions.getPrice();
+        } else {
+            price = "Miễn phí";
+        }
+        tv_attr_price.setText(price);
+
         tv_attr_detail.setText(attractions.getDetail());
 
 

@@ -1,4 +1,4 @@
-package com.chowchow.os.chowchow.ui.view.main.view;
+package com.chowchow.os.chowchow.ui.view.main.view.tour;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +17,8 @@ import com.chowchow.os.chowchow.model.Tour;
 import com.chowchow.os.chowchow.model.TourDetail;
 import com.chowchow.os.chowchow.ui.adapter.GridViewAdapter;
 import com.chowchow.os.chowchow.ui.adapter.TourDetailAdapter;
+import com.chowchow.os.chowchow.ui.view.main.view.MainActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.SuggestTourFragment;
 import com.chowchow.os.chowchow.utils.CommonUtils;
 import com.squareup.picasso.Picasso;
 

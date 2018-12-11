@@ -37,5 +37,5 @@ public interface APIService {
     Call<TourModel> getTour();
 
     @GET("data/2.5/weather")
-    Call <WeatherModel> getWeatherByCity(@Query("q") String city, @Query("appid") String apiKey);
+    Call <WeatherModel> getWeatherByCity(@Query("q") String city, @Query("appid") String apiKey, @Query("lang") String language);
 }

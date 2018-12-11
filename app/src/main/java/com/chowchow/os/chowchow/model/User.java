@@ -1,5 +1,7 @@
 package com.chowchow.os.chowchow.model;
 
+import android.net.Uri;
+
 import java.io.Serializable;
 
 import io.realm.RealmObject;

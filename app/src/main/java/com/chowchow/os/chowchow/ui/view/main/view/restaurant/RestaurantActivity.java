@@ -1,4 +1,4 @@
-package com.chowchow.os.chowchow.ui.view.main.view;
+package com.chowchow.os.chowchow.ui.view.main.view.restaurant;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,15 +11,14 @@ import android.widget.ImageView;
 import android.widget.SearchView;
 
 import com.chowchow.os.chowchow.R;
-import com.chowchow.os.chowchow.api.APIService;
 import com.chowchow.os.chowchow.api.ApiUtils;
+import com.chowchow.os.chowchow.api.APIService;
 import com.chowchow.os.chowchow.callback.ItemClickListener;
-import com.chowchow.os.chowchow.model.Hotel;
-import com.chowchow.os.chowchow.model.HotelModel;
 import com.chowchow.os.chowchow.model.Restaurant;
 import com.chowchow.os.chowchow.model.RestaurantModel;
-import com.chowchow.os.chowchow.ui.adapter.HotelAdapter;
 import com.chowchow.os.chowchow.ui.adapter.RestaurantAdapter;
+import com.chowchow.os.chowchow.ui.view.main.view.DirectionActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.MainActivity;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -28,31 +27,29 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HotelActivity extends AppCompatActivity {
-
+public class RestaurantActivity extends AppCompatActivity {
     private ImageView iv_back, imgAppName;
     private RecyclerView mRecyclerView;
     private SearchView editsearch;
     private AVLoadingIndicatorView avi;
-    private HotelAdapter mAdapter;
+    private RestaurantAdapter mAdapter;
     private APIService mService;
-    private ArrayList<Hotel> mArrayList;
+    private ArrayList<Restaurant> mArrayList;
 
-    public static final String HOTEL_DETAIL_KEY = "HOTEL";
+    public static final String RESTAURANT_DETAIL_KEY = "RESTAURANT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hotel);
-
-        mService = ApiUtils.getHotelService();
+        setContentView(R.layout.activity_restaurant);
+        mService = ApiUtils.getRestaurantService();
 
         initViews();
 
-        loadHotel();
+        loadRestaurant();
 
         // Locate the EditText in listview_main.xml
-        editsearch = (SearchView) findViewById(R.id.search_hotel);
+        editsearch = (SearchView) findViewById(R.id.search_restaurant);
         editsearch.setIconified(false);
         editsearch.clearFocus();
         search(editsearch);
@@ -75,15 +72,16 @@ public class HotelActivity extends AppCompatActivity {
         });
 
         // Init loading animation
-        avi = (AVLoadingIndicatorView) findViewById(R.id.hotel_loading_indicator);
+        avi = (AVLoadingIndicatorView) findViewById(R.id.rest_loading_indicator);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
     }
 
     private void initViews(){
-        mRecyclerView = (RecyclerView)findViewById(R.id.list_hotel);
+        mRecyclerView = (RecyclerView)findViewById(R.id.list_restaurant);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -110,22 +108,22 @@ public class HotelActivity extends AppCompatActivity {
         });
     }
 
-    public void loadHotel() {
+    public void loadRestaurant() {
         // Show loading indicator
 //        startLoadingAnimation();
 
-        mService.getHotel().enqueue(new Callback<HotelModel>() {
+        mService.getRestaurant().enqueue(new Callback<RestaurantModel>() {
             @Override
-            public void onResponse(Call<HotelModel> call, Response<HotelModel> response) {
+            public void onResponse(Call<RestaurantModel> call, Response<RestaurantModel> response) {
 
                 if(response.isSuccessful()) {
-                    HotelModel jsonResponse = response.body();
-                    mArrayList = new ArrayList<>(jsonResponse.getListHotel());
-                    mAdapter = new HotelAdapter(mArrayList, new ItemClickListener() {
+                    RestaurantModel jsonResponse = response.body();
+                    mArrayList = new ArrayList<>(jsonResponse.getListRestaurant());
+                    mAdapter = new RestaurantAdapter(mArrayList, new ItemClickListener() {
                         @Override
                         public void onClick(View view, int position, boolean isLongClick) {
                             Intent intent = new Intent(view.getContext(), DirectionActivity.class);
-                            intent.putExtra(HotelActivity.HOTEL_DETAIL_KEY, mArrayList.get(position));
+                            intent.putExtra(RestaurantActivity.RESTAURANT_DETAIL_KEY, mArrayList.get(position));
                             view.getContext().startActivity(intent);
                         }
                     });
@@ -133,22 +131,22 @@ public class HotelActivity extends AppCompatActivity {
 
                     // Hide loading indicator
                     stopLoadingAnimation();
-                    Log.d("HotelActivity", "posts loaded from API");
+                    Log.d("RestaurantActivity", "posts loaded from API");
                 } else {
                     int statusCode  = response.code();
                     stopLoadingAnimation();
                     eventBack();
-                    Log.d("HotelActivity", "Call API response code " + statusCode);
+                    Log.d("RestaurantActivity", "Call API response code " + statusCode);
                     // handle request errors depending on status code
                 }
             }
 
             @Override
-            public void onFailure(Call<HotelModel> call, Throwable t) {
+            public void onFailure(Call<RestaurantModel> call, Throwable t) {
                 stopLoadingAnimation();
                 eventBack();
                 Log.d("Error",t.getMessage());
-                Log.d("HotelActivity", "error loading from API");
+                Log.d("RestaurantActivity", "error loading from API");
 
             }
         });
@@ -180,4 +178,5 @@ public class HotelActivity extends AppCompatActivity {
             }
         });
     }
+
 }

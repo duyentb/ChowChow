@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.chowchow.os.chowchow.ui.view.main.view.ShoppingActivity">
+    tools:context="com.chowchow.os.chowchow.ui.view.main.view.shopping.ShoppingActivity">
 
     <RelativeLayout
         android:id="@+id/main_header"

@@ -1,4 +1,4 @@
-package com.chowchow.os.chowchow.ui.view.main.view;
+package com.chowchow.os.chowchow.ui.view.main.view.hotel;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,20 +12,20 @@ import android.widget.TextView;
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.model.AttrImage;
 import com.chowchow.os.chowchow.model.Hotel;
-import com.chowchow.os.chowchow.model.Restaurant;
 import com.chowchow.os.chowchow.model.Room;
-import com.chowchow.os.chowchow.model.Specialty;
 import com.chowchow.os.chowchow.ui.adapter.AttrImageAdapter;
 import com.chowchow.os.chowchow.ui.adapter.RoomAdapter;
-import com.chowchow.os.chowchow.ui.adapter.SpecialtyAdapter;
+import com.chowchow.os.chowchow.ui.view.main.view.DirectionActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.MainActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.hotel.HotelActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class HotelDetailActivity extends AppCompatActivity {
 
-    private ImageView iv_hotel_image, iv_back, imgAppName;
-    private TextView tv_hotel_name, tv_hotel_address, tv_working_time, tv_hotel_detail;
+    private ImageView iv_hotel_image, iv_back, imgAppName, iv_map;
+    private TextView tv_hotel_name, tv_hotel_address, tv_working_time, tv_hotel_detail, tv_hotel_price;
     private RecyclerView rvAttrImage, rvRoom;
     private AttrImageAdapter attrImageAdapter;
     private RoomAdapter roomAdapter;
@@ -60,6 +60,8 @@ public class HotelDetailActivity extends AppCompatActivity {
         tv_hotel_address = (TextView) findViewById(R.id.tv_hotel_address);
         tv_working_time = (TextView) findViewById(R.id.tv_working_time);
         tv_hotel_detail = (TextView) findViewById(R.id.tv_hotel_detail);
+        tv_hotel_price = (TextView) findViewById(R.id.tv_hotel_price);
+        iv_map = (ImageView) findViewById(R.id.iv_map);
 
         rvAttrImage = (RecyclerView)findViewById(R.id.list_hotel_image);
         RecyclerView.LayoutManager layoutManagerImage = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -74,18 +76,37 @@ public class HotelDetailActivity extends AppCompatActivity {
         // Use the attractions to populate the data into our views
         Hotel hotel = (Hotel) getIntent().getSerializableExtra(HotelActivity.HOTEL_DETAIL_KEY);
 
+        iv_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), DirectionActivity.class);
+                intent.putExtra(HotelActivity.HOTEL_DETAIL_KEY, hotel);
+                getApplicationContext().startActivity(intent);
+            }
+        });
+
         Picasso.get().load(hotel.getAttrImage().get(0).getLink()).centerCrop().resize(360, 270).into(iv_hotel_image);
         tv_hotel_name.setText(hotel.getHotelName());
         tv_hotel_address.setText(hotel.getHotelAddress());
 
-        String working_time = "";
-        if (!("".equals(hotel.getOpeningTimeStart())  && "".equals(hotel.getOpeningTimeEnd()))) {
-            working_time = hotel.getOpeningTimeStart() + " - " + hotel.getOpeningTimeEnd();
-        } else {
+        String working_time, timeStart, timeEnd;
+        timeStart = hotel.getOpeningTimeStart();
+        timeEnd = hotel.getOpeningTimeEnd();
+        if ("".equals(timeStart)  || "".equals(timeEnd)) {
             working_time = "24/24";
+        } else {
+            working_time = timeStart + " - " + timeEnd;
         }
-
         tv_working_time.setText(working_time);
+
+        String price;
+        if (!"".equals(hotel.getPrice())) {
+            price = hotel.getPrice();
+        } else {
+            price = "Miễn phí";
+        }
+        tv_hotel_price.setText(price);
+
         tv_hotel_detail.setText(hotel.getDetail());
 
 

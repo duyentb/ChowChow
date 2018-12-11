@@ -156,9 +156,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                 tvDistance.setText("0 km");
                 tvDuration.setText("0 min");
                 String url = getUrl(mLastLocation.getLatitude(), mLastLocation.getLongitude(), Constant.RESTAURENT);
-                Object[] DataTransfer = new Object[2];
+                Object[] DataTransfer = new Object[3];
                 DataTransfer[0] = mGoogleMap;
                 DataTransfer[1] = url;
+                DataTransfer[2] = Constant.RESTAURENT;
                 Log.d("onClick", url);
                 GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
                 getNearbyPlacesData.execute(DataTransfer);
@@ -174,9 +175,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                 tvDistance.setText("0 km");
                 tvDuration.setText("0 min");
                 String url = getUrl(mLastLocation.getLatitude(), mLastLocation.getLongitude(), Constant.HOTEL);
-                Object[] DataTransfer = new Object[2];
+                Object[] DataTransfer = new Object[3];
                 DataTransfer[0] = mGoogleMap;
                 DataTransfer[1] = url;
+                DataTransfer[2] = Constant.HOTEL;
                 Log.d("onClick", url);
                 GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
                 getNearbyPlacesData.execute(DataTransfer);
@@ -192,9 +194,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                 tvDistance.setText("0 km");
                 tvDuration.setText("0 min");
                 String url = getUrl(mLastLocation.getLatitude(), mLastLocation.getLongitude(), Constant.HOSPITAL);
-                Object[] DataTransfer = new Object[2];
+                Object[] DataTransfer = new Object[3];
                 DataTransfer[0] = mGoogleMap;
                 DataTransfer[1] = url;
+                DataTransfer[2] = Constant.HOSPITAL;
                 Log.d("onClick", url);
                 GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
                 getNearbyPlacesData.execute(DataTransfer);
@@ -210,9 +213,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                 tvDistance.setText("0 km");
                 tvDuration.setText("0 min");
                 String url = getUrl(mLastLocation.getLatitude(), mLastLocation.getLongitude(), Constant.ATM);
-                Object[] DataTransfer = new Object[2];
+                Object[] DataTransfer = new Object[3];
                 DataTransfer[0] = mGoogleMap;
                 DataTransfer[1] = url;
+                DataTransfer[2] = Constant.ATM;
                 Log.d("onClick", url);
                 GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
                 getNearbyPlacesData.execute(DataTransfer);
@@ -228,9 +232,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                 tvDistance.setText("0 km");
                 tvDuration.setText("0 min");
                 String url = getUrl(mLastLocation.getLatitude(), mLastLocation.getLongitude(), Constant.GAS_STATION);
-                Object[] DataTransfer = new Object[2];
+                Object[] DataTransfer = new Object[3];
                 DataTransfer[0] = mGoogleMap;
                 DataTransfer[1] = url;
+                DataTransfer[2] = Constant.GAS_STATION;
                 Log.d("onClick", url);
                 GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
                 getNearbyPlacesData.execute(DataTransfer);
@@ -246,9 +251,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                 tvDistance.setText("0 km");
                 tvDuration.setText("0 min");
                 String url = getUrl(mLastLocation.getLatitude(), mLastLocation.getLongitude(), Constant.CAFE);
-                Object[] DataTransfer = new Object[2];
+                Object[] DataTransfer = new Object[3];
                 DataTransfer[0] = mGoogleMap;
                 DataTransfer[1] = url;
+                DataTransfer[2] = Constant.CAFE;
                 Log.d("onClick", url);
                 GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
                 getNearbyPlacesData.execute(DataTransfer);
@@ -479,7 +485,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
         for (Route route : routes) {
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 16));
-            tvDistance.setText(route.duration.text);
+            tvDuration.setText(route.duration.text);
             tvDistance.setText(route.distance.text);
 
             originMarkers.add(mGoogleMap.addMarker(new MarkerOptions()

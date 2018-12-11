@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightgray"
-    tools:context="com.chowchow.os.chowchow.ui.view.main.view.TourDayDetailActivity">
+    tools:context="com.chowchow.os.chowchow.ui.view.main.view.tour.TourDayDetailActivity">
 
     <RelativeLayout
         android:id="@+id/main_header"

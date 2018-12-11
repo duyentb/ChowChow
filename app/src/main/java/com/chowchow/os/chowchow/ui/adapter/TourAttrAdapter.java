@@ -13,10 +13,8 @@ import android.widget.TextView;
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.callback.ItemClickListener;
 import com.chowchow.os.chowchow.model.TourDetail;
-import com.chowchow.os.chowchow.ui.view.main.view.AttractionsActivity;
-import com.chowchow.os.chowchow.ui.view.main.view.AttractionsDetailActivity;
 import com.chowchow.os.chowchow.ui.view.main.view.DirectionActivity;
-import com.chowchow.os.chowchow.ui.view.main.view.ItineraryDetailActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.tour.ItineraryDetailActivity;
 import com.chowchow.os.chowchow.utils.CommonUtils;
 import com.squareup.picasso.Picasso;
 

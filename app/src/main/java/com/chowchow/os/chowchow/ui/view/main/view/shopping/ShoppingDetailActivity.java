@@ -1,4 +1,4 @@
-package com.chowchow.os.chowchow.ui.view.main.view;
+package com.chowchow.os.chowchow.ui.view.main.view.shopping;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,20 +12,20 @@ import android.widget.TextView;
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.model.AttrImage;
 import com.chowchow.os.chowchow.model.Product;
-import com.chowchow.os.chowchow.model.Restaurant;
 import com.chowchow.os.chowchow.model.Shop;
-import com.chowchow.os.chowchow.model.Specialty;
 import com.chowchow.os.chowchow.ui.adapter.AttrImageAdapter;
 import com.chowchow.os.chowchow.ui.adapter.ProductAdapter;
-import com.chowchow.os.chowchow.ui.adapter.SpecialtyAdapter;
+import com.chowchow.os.chowchow.ui.view.main.view.DirectionActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.MainActivity;
+import com.chowchow.os.chowchow.ui.view.main.view.shopping.ShoppingActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class ShoppingDetailActivity extends AppCompatActivity {
 
-    private ImageView iv_shop_image, iv_back, imgAppName;
-    private TextView tv_shop_name, tv_shop_address, tv_working_time, tv_shop_detail;
+    private ImageView iv_shop_image, iv_back, imgAppName, iv_map;
+    private TextView tv_shop_name, tv_shop_address, tv_working_time, tv_shop_detail, tv_shop_price;
     private RecyclerView rvAttrImage, rvProduct;
     private AttrImageAdapter attrImageAdapter;
     private ProductAdapter productAdapter;
@@ -60,6 +60,8 @@ public class ShoppingDetailActivity extends AppCompatActivity {
         tv_shop_address = (TextView) findViewById(R.id.tv_shop_address);
         tv_working_time = (TextView) findViewById(R.id.tv_working_time);
         tv_shop_detail = (TextView) findViewById(R.id.tv_shop_detail);
+        tv_shop_price = (TextView) findViewById(R.id.tv_shop_price);
+        iv_map = (ImageView) findViewById(R.id.iv_map);
 
         rvAttrImage = (RecyclerView)findViewById(R.id.list_shop_image);
         RecyclerView.LayoutManager layoutManagerImage = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -74,16 +76,37 @@ public class ShoppingDetailActivity extends AppCompatActivity {
         // Use the attractions to populate the data into our views
         Shop shop = (Shop) getIntent().getSerializableExtra(ShoppingActivity.SHOPPING_DETAIL_KEY);
 
+        iv_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), DirectionActivity.class);
+                intent.putExtra(ShoppingActivity.SHOPPING_DETAIL_KEY, shop);
+                getApplicationContext().startActivity(intent);
+            }
+        });
+
         Picasso.get().load(shop.getAttrImage().get(0).getLink()).centerCrop().resize(360, 270).into(iv_shop_image);
         tv_shop_name.setText(shop.getShopName());
         tv_shop_address.setText(shop.getShopAddress());
 
-        String working_time = "";
-        if (!("".equals(shop.getOpeningTimeStart())  && "".equals(shop.getOpeningTimeEnd()))) {
-            working_time = shop.getOpeningTimeStart() + " - " + shop.getOpeningTimeEnd();
+        String working_time, timeStart, timeEnd;
+        timeStart = shop.getOpeningTimeStart();
+        timeEnd = shop.getOpeningTimeEnd();
+        if ("".equals(timeStart)  || "".equals(timeEnd)) {
+            working_time = "24/24";
+        } else {
+            working_time = timeStart + " - " + timeEnd;
         }
-
         tv_working_time.setText(working_time);
+
+        String price;
+        if (!"".equals(shop.getPrice())) {
+            price = shop.getPrice();
+        } else {
+            price = "Miễn phí";
+        }
+        tv_shop_price.setText(price);
+
         tv_shop_detail.setText(shop.getDetail());
 
 
