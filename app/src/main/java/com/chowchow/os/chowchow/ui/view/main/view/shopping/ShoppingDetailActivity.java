@@ -18,6 +18,7 @@ import com.chowchow.os.chowchow.ui.adapter.ProductAdapter;
 import com.chowchow.os.chowchow.ui.view.main.view.DirectionActivity;
 import com.chowchow.os.chowchow.ui.view.main.view.MainActivity;
 import com.chowchow.os.chowchow.ui.view.main.view.shopping.ShoppingActivity;
+import com.chowchow.os.chowchow.utils.CommonUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -101,7 +102,7 @@ public class ShoppingDetailActivity extends AppCompatActivity {
 
         String price;
         if (!"".equals(shop.getPrice())) {
-            price = shop.getPrice();
+            price = CommonUtils.convertCost(shop.getPrice());
         } else {
             price = "Miễn phí";
         }

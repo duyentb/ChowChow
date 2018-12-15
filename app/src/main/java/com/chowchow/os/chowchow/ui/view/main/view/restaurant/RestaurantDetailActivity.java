@@ -18,6 +18,7 @@ import com.chowchow.os.chowchow.ui.adapter.SpecialtyAdapter;
 import com.chowchow.os.chowchow.ui.view.main.view.DirectionActivity;
 import com.chowchow.os.chowchow.ui.view.main.view.MainActivity;
 import com.chowchow.os.chowchow.ui.view.main.view.restaurant.RestaurantActivity;
+import com.chowchow.os.chowchow.utils.CommonUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -100,7 +101,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
 
         String price;
         if (!"".equals(restaurant.getPrice())) {
-            price = restaurant.getPrice();
+            price = CommonUtils.convertCost(restaurant.getPrice());
         } else {
             price = "Miễn phí";
         }

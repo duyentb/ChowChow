@@ -1,6 +1,7 @@
 package com.chowchow.os.chowchow.utils;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.Log;
 
 import com.chowchow.os.chowchow.model.Tag;
@@ -68,14 +69,25 @@ public class CommonUtils {
         return px / context.getResources().getDisplayMetrics().density;
     }
 
-    public static boolean isMatchFavorite (ArrayList<Tag> tourFavorite, ArrayList<String> selectedFavorite) {
+    public static int getNumberMatchFavorite (ArrayList<Tag> tourFavorite, ArrayList<String> selectedFavorite) {
+        int count = 0;
         for (Tag tag : tourFavorite) {
             for (int i = 0 ; i < selectedFavorite.size(); i++) {
+                Log.d("ChauNB", "selectedFavorite[" + i +"] = " + selectedFavorite.get(i));
+                Log.d("ChauNB", "tourFavorite = " + tag.getTagId());
                 if (selectedFavorite.get(i).equals(tag.getTagId())) {
-                    return true;
+                    count++;
                 }
             }
         }
-        return false;
+        return count;
+    }
+
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getScreenHeight() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 }

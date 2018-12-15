@@ -88,7 +88,11 @@ public class SuggestTourFragment extends Fragment {
             fromDate = getArguments().getString(ScheduleFragment.SCHEDULE_DATE_FROM_KEY);
             cost = getArguments().getInt(ScheduleFragment.SCHEDULE_COST_KEY);
             listSelected = getArguments().getStringArrayList(ScheduleFragment.SCHEDULE_FAVORITE_KEY);
-            Log.d("DuyenTB data get",""+listSelected.size() + " "+duration + " " + cost + " " + fromDate );
+            if (listSelected != null) {
+                Log.d("data get", "" + listSelected.size() + " " + duration + " " + cost + " " + fromDate);
+            } else {
+                Log.d("data get listSelected", "NULL LIST" );
+            }
         } else {
             duration = "";
             fromDate = "";
@@ -162,16 +166,28 @@ public class SuggestTourFragment extends Fragment {
                     mArrayList = new ArrayList<Tour>(jsonResponse.getData());
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
                     String currentDate = dateFormat.format(new Date());
+                    int max = 0;
+
                     for (Tour tour : mArrayList) {
                         tour.getTourInfo().setTourDayStart(currentDate);
+                        int count = CommonUtils.getNumberMatchFavorite((ArrayList<Tag>) tour.getTourInfo().getTourFavorite(), listSelected);
+                        Log.d("ChauNB", "count = " + count);
+                        if (count > max) {
+                            max = count;
+                        }
+                        Log.d("ChauNB", "max = " + max);
                     }
                     for (Tour tour : mArrayList) {
                         int budget = Integer.parseInt(tour.getTourInfo().getTourBudget());
                         if (duration.equals(tour.getTourInfo().getTourDuration())
-                                && (cost >= (budget - 100000))
-                                && CommonUtils.isMatchFavorite((ArrayList<Tag>) tour.getTourInfo().getTourFavorite(), listSelected)) {
+                                && (cost >= (budget - 100000))) {
                             tour.getTourInfo().setTourDayStart(fromDate);
-                            mFilterList.add(tour);
+                            Log.d("ChauNB filter", "max = " + max);
+                            Log.d("ChauNB filter", "number = " + CommonUtils.getNumberMatchFavorite((ArrayList<Tag>) tour.getTourInfo().getTourFavorite(), listSelected));
+                            if (max > 0 && CommonUtils.getNumberMatchFavorite((ArrayList<Tag>) tour.getTourInfo().getTourFavorite(), listSelected) == max) {
+                                mFilterList.add(tour);
+                                break;
+                            }
                         }
                     }
                     if (mFilterList == null) {

@@ -12,6 +12,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +24,7 @@ import android.widget.Toast;
 import com.chowchow.os.chowchow.R;
 import com.chowchow.os.chowchow.model.User;
 import com.chowchow.os.chowchow.realm.UserDAO;
+import com.chowchow.os.chowchow.utils.CommonUtils;
 
 
 public class LoginFragment extends Fragment {
@@ -33,6 +37,7 @@ public class LoginFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private TextView tv_welcome;
     private EditText input_user_name, input_password;
     private Button btn_login;
 
@@ -73,6 +78,10 @@ public class LoginFragment extends Fragment {
         btn_login = (Button) view.findViewById(R.id.btn_login);
         input_password = (EditText) view.findViewById(R.id.input_password);
         input_user_name = (EditText) view.findViewById(R.id.input_user_name);
+        tv_welcome = (TextView) view.findViewById(R.id.tv_welcome);
+
+        // Set animation text
+        setTranslation();
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +149,19 @@ public class LoginFragment extends Fragment {
             }
         });
     }
+    private void setTranslation() {
+        TranslateAnimation tanim = new TranslateAnimation(
+                TranslateAnimation.ABSOLUTE, 1.0f * CommonUtils.getScreenWidth(),
+                TranslateAnimation.ABSOLUTE, -1.0f * CommonUtils.getScreenWidth(),
+                TranslateAnimation.ABSOLUTE, 0.0f,
+                TranslateAnimation.ABSOLUTE, 0.0f);
+        tanim.setDuration(5000);//set the duration
+        tanim.setInterpolator(new LinearInterpolator());
+        tanim.setRepeatCount(Animation.INFINITE);
+        tanim.setRepeatMode(Animation.ABSOLUTE);
 
+        tv_welcome.startAnimation(tanim);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

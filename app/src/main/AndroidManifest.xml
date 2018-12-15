@@ -51,28 +51,29 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".ui.view.main.view.MainActivity">
+        <activity android:name=".ui.view.main.view.SplashScreenActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.view.main.view.attractions.AttractionsActivity" />
-        <activity android:name=".ui.view.main.view.tour.TourDetailActivity" />
-        <activity android:name=".ui.view.main.view.restaurant.RestaurantActivity" />
-        <activity android:name=".ui.view.main.view.shopping.ShoppingActivity" />
-        <activity android:name=".ui.view.main.view.event.EventActivity" />
-        <activity android:name=".ui.view.main.view.attractions.AttractionsDetailActivity" />
-        <activity android:name=".ui.view.main.view.restaurant.RestaurantDetailActivity" />
-        <activity android:name=".ui.view.main.view.DirectionActivity" />
-        <activity android:name=".ui.view.main.view.tour.TourDayDetailActivity" />
-        <activity android:name=".ui.view.main.view.event.EventDetailActivity" />
-        <activity android:name=".ui.view.main.view.shopping.ShoppingDetailActivity" />
-        <activity android:name=".ui.view.main.view.tour.ItineraryDetailActivity" />
-        <activity android:name=".ui.view.main.view.hotel.HotelActivity" />
-        <activity android:name=".ui.view.main.view.hotel.HotelDetailActivity" />
-        <activity android:name=".ui.view.main.view.weather.WeatherActivity"></activity>
+        <activity android:name=".ui.view.main.view.MainActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.main.view.attractions.AttractionsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.main.view.tour.TourDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.main.view.restaurant.RestaurantActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.main.view.shopping.ShoppingActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.main.view.event.EventActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.main.view.attractions.AttractionsDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.main.view.restaurant.RestaurantDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.main.view.DirectionActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.main.view.tour.TourDayDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.main.view.event.EventDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.main.view.shopping.ShoppingDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.main.view.tour.ItineraryDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.main.view.hotel.HotelActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.main.view.hotel.HotelDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.main.view.weather.WeatherActivity" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

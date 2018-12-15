@@ -44,7 +44,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull EventAdapter.ViewHolder viewHolder, int position) {
         String imgURL = mFilteredList.get(position).getAttrImage().get(0).getLink();
-        Picasso.get().load(imgURL).centerCrop().resize(120, 90).into(viewHolder.iv_event_image);
+        Picasso.get().load(imgURL).centerCrop().resize(360, 270).into(viewHolder.iv_event_image);
         viewHolder.tv_event_name.setText(mFilteredList.get(position).getEventName());
         viewHolder.tv_event_address.setText(mFilteredList.get(position).getEventAddress());
 

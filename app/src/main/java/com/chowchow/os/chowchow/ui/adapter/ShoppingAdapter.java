@@ -44,7 +44,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ShoppingAdapter.ViewHolder viewHolder, final int position) {
         String imgURL = mFilteredList.get(position).getAttrImage().get(0).getLink();
-        Picasso.get().load(imgURL).centerCrop().resize(120, 90).into(viewHolder.iv_shop_image);
+        Picasso.get().load(imgURL).centerCrop().resize(360, 270).into(viewHolder.iv_shop_image);
         viewHolder.tv_shop_name.setText(mFilteredList.get(position).getShopName());
         viewHolder.tv_shop_address.setText(mFilteredList.get(position).getShopAddress());
 

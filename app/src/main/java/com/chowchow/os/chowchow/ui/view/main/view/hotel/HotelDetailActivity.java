@@ -18,6 +18,7 @@ import com.chowchow.os.chowchow.ui.adapter.RoomAdapter;
 import com.chowchow.os.chowchow.ui.view.main.view.DirectionActivity;
 import com.chowchow.os.chowchow.ui.view.main.view.MainActivity;
 import com.chowchow.os.chowchow.ui.view.main.view.hotel.HotelActivity;
+import com.chowchow.os.chowchow.utils.CommonUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -101,7 +102,7 @@ public class HotelDetailActivity extends AppCompatActivity {
 
         String price;
         if (!"".equals(hotel.getPrice())) {
-            price = hotel.getPrice();
+            price = CommonUtils.convertCost(hotel.getPrice());
         } else {
             price = "Miễn phí";
         }

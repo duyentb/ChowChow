@@ -21,6 +21,7 @@ import com.chowchow.os.chowchow.ui.adapter.ProductAdapter;
 import com.chowchow.os.chowchow.ui.adapter.SpecialtyAdapter;
 import com.chowchow.os.chowchow.ui.view.main.view.DirectionActivity;
 import com.chowchow.os.chowchow.ui.view.main.view.MainActivity;
+import com.chowchow.os.chowchow.utils.CommonUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -111,7 +112,7 @@ public class ItineraryDetailActivity extends AppCompatActivity {
 
         String price;
         if (!"".equals(tourDetail.getPrice())) {
-            price = tourDetail.getPrice();
+            price = CommonUtils.convertCost(tourDetail.getPrice());
         } else {
             price = "Miễn phí";
         }

@@ -41,6 +41,8 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -75,6 +77,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     GoogleMap mGoogleMap;
     SupportMapFragment locationMap;
     LocationRequest mLocationRequest;
+    //Define fields for Google API Client
+    private FusedLocationProviderClient mFusedLocationClient;
+    private Location lastLocation;
+    private LocationRequest locationRequest;
+    private LocationCallback mLocationCallback;
+
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 14;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Place searchPlace;

@@ -26,7 +26,7 @@ public class TourDetail implements Serializable {
     @SerializedName("lat")
     @Expose
     private String lat;
-    @SerializedName("long")
+    @SerializedName("lng")
     @Expose
     private String _long;
     @SerializedName("opening_time_start")

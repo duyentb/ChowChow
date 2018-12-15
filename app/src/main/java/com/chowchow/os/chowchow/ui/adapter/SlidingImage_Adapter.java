@@ -40,7 +40,11 @@ public class SlidingImage_Adapter extends PagerAdapter {
     public int getCount() {
         int count = 0;
         if (mArrayList.size() > 0) {
-            count = mArrayList.size();
+            if (mArrayList.size() > 5) {
+                count = 5;
+            } else {
+                count = mArrayList.size();
+            }
         }
         return count;
     }

@@ -46,4 +46,28 @@
 
     <string name="facebook_app_id">462516027488890</string>
     <string name="fb_login_protocol_scheme">fb462516027488890</string>
+
+
+    <string name="permission_denied_explanation">
+        Permission was denied, but is needed. Go to Settings.
+    </string>
+
+    <string name="settings">Settings</string>
+    <string name="ok">OK</string>
+
+    <string name="scanning">
+        Scanning for beacons&#8230;
+    </string>
+
+    <string name="one_message">
+        Scanning. Found 1 message
+    </string>
+
+    <string name="many_messages">
+        Scanning. Found %1$d messages
+    </string>
+
+    <string name="permission_denied">
+        Permission to use Nearby denied. Cannot subscribe.
+    </string>
 </resources>

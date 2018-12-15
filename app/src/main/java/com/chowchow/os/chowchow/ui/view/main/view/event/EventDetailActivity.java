@@ -16,6 +16,7 @@ import com.chowchow.os.chowchow.ui.adapter.AttrImageAdapter;
 import com.chowchow.os.chowchow.ui.view.main.view.DirectionActivity;
 import com.chowchow.os.chowchow.ui.view.main.view.MainActivity;
 import com.chowchow.os.chowchow.ui.view.main.view.event.EventActivity;
+import com.chowchow.os.chowchow.utils.CommonUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ public class EventDetailActivity extends AppCompatActivity {
 
         String price;
         if (!"".equals(event.getPrice())) {
-            price = event.getPrice();
+            price = CommonUtils.convertCost(event.getPrice());
         } else {
             price = "Miễn phí";
         }

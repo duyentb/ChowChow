@@ -22,7 +22,10 @@ import com.chowchow.os.chowchow.ui.view.main.view.SuggestTourFragment;
 import com.chowchow.os.chowchow.utils.CommonUtils;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -87,7 +90,15 @@ public class TourDetailActivity extends AppCompatActivity {
         String duration = CommonUtils.convertText(tour.getTourInfo().getTourDuration(), "ngày");
         tv_tour_duration.setText(duration);
 
-        String from = "Từ " + tour.getTourInfo().getTourDayStart();
+        String from = "Từ ";
+        String start = tour.getTourInfo().getTourDayStart();
+        if (start == null || "".equals(start)) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+            String currentDate = dateFormat.format(new Date());
+            from = from + currentDate;
+        } else {
+            from = from + start;
+        }
         tv_tour_from.setText(from);
 
         String location = CommonUtils.convertText(tour.getTourInfo().getNumAttr(), "địa điểm");
