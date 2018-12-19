@@ -113,27 +113,27 @@ public class DirectionActivity extends FragmentActivity implements OnMapReadyCal
         if (attractions != null) {
             latAttractions = attractions.getLat();
             lngAttractions = attractions.getLng();
-            Log.d("DuyenTB","Attractions");
+            Log.d("ChauNB","Attractions");
         } else if (restaurant != null) {
             latAttractions = restaurant.getLat();
             lngAttractions = restaurant.getLng();
-            Log.d("DuyenTB","Restaurant");
+            Log.d("ChauNB","Restaurant");
         } else if (event != null) {
             latAttractions = event.getLat();
             lngAttractions = event.getLng();
-            Log.d("DuyenTB","Event");
+            Log.d("ChauNB","Event");
         } else if (shop != null) {
             latAttractions = shop.getLat();
             lngAttractions = shop.getLng();
-            Log.d("DuyenTB","Shopping");
+            Log.d("ChauNB","Shopping");
         } else if (hotel != null) {
             latAttractions = hotel.getLat();
             lngAttractions = hotel.getLng();
-            Log.d("DuyenTB","Hotel");
+            Log.d("ChauNB","Hotel");
         } else if (tourDetail != null) {
             latAttractions = tourDetail.getLat();
             lngAttractions = tourDetail.getLong();
-            Log.d("DuyenTB","TourDetail");
+            Log.d("ChauNB","TourDetail");
         }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.

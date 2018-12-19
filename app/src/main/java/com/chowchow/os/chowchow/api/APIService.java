@@ -1,6 +1,7 @@
 package com.chowchow.os.chowchow.api;
 
 import com.chowchow.os.chowchow.model.AttractionsModel;
+import com.chowchow.os.chowchow.model.DistanceResponse;
 import com.chowchow.os.chowchow.model.EventModel;
 import com.chowchow.os.chowchow.model.HotelModel;
 import com.chowchow.os.chowchow.model.RestaurantModel;
@@ -9,10 +10,13 @@ import com.chowchow.os.chowchow.model.TagsModel;
 import com.chowchow.os.chowchow.model.TourModel;
 import com.chowchow.os.chowchow.model.weather.WeatherModel;
 
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 public interface APIService {
     @GET("attractions")
@@ -38,4 +42,9 @@ public interface APIService {
 
     @GET("data/2.5/weather")
     Call <WeatherModel> getWeatherByCity(@Query("q") String city, @Query("appid") String apiKey, @Query("lang") String language);
+
+    @GET("maps/api/distancematrix/json")
+    Call<DistanceResponse> getDistanceInfo(
+            @QueryMap Map<String, String> parameters
+    );
 }

@@ -14,7 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chowchow.os.chowchow.R;
+import com.chowchow.os.chowchow.api.APIService;
+import com.chowchow.os.chowchow.api.ApiUtils;
+import com.chowchow.os.chowchow.constant.Constant;
 import com.chowchow.os.chowchow.model.AttrImage;
+import com.chowchow.os.chowchow.model.DistanceResponse;
+import com.chowchow.os.chowchow.model.Element;
+import com.chowchow.os.chowchow.model.Row;
 import com.chowchow.os.chowchow.model.Tour;
 import com.chowchow.os.chowchow.model.TourDetail;
 import com.chowchow.os.chowchow.model.TourInfo;
@@ -25,18 +31,27 @@ import com.chowchow.os.chowchow.utils.CommonUtils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TourDetailAdapter extends RecyclerView.Adapter<TourDetailAdapter.ViewHolder> {
     private ArrayList<Integer> mArrayList;
     private Tour mTour;
     private TourInfo tourInfo;
+    private APIService mService;
     private ArrayList<TourDetail> tourDetail;
     private ArrayList<TourDetail> tourDetailDay;
     private ArrayList<AttrImage> arrAttrImage;
     private GridViewAdapter mGridViewAdapter;
     private Context context;
     private String currentDate;
+    private ArrayList<String> arrDistance;
+    private int totalDistance;
 
     public TourDetailAdapter(Context context, ArrayList<Integer> arrayList, Tour myTour) {
         this.context = context;
@@ -54,17 +69,22 @@ public class TourDetailAdapter extends RecyclerView.Adapter<TourDetailAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull TourDetailAdapter.ViewHolder viewHolder, final int position) {
         int day = position + 1;
+        mService = ApiUtils.getDistanceService();
         tourDetail = (ArrayList<TourDetail>) mTour.getTourDetail();
         tourInfo = (TourInfo) mTour.getTourInfo();
 
         tourDetailDay = new ArrayList<TourDetail>();
         arrAttrImage = new ArrayList<AttrImage>();
+        arrDistance = new ArrayList<String>();
         for (TourDetail tour: tourDetail) {
             if (String.valueOf(day).equals(tour.getDay())) {
                 tourDetailDay.add(tour);
                 arrAttrImage.add(tour.getAttrImage().get(0));
+                arrDistance.add(tour.getLat() + "," + tour.getLong());
             }
         }
+
+        getDistanceInfo(viewHolder);
 
         if (day % 2 == 0) {
             viewHolder.ll_day_header.setBackgroundResource(R.color.evenPanelColor);
@@ -76,11 +96,11 @@ public class TourDetailAdapter extends RecyclerView.Adapter<TourDetailAdapter.Vi
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
         if (day == 1) {
             currentDate = dateFormat.format(CommonUtils.convertStringToDate(tourInfo.getTourDayStart()));
-            Log.d("DuyenTB day","1 " + currentDate);
+            Log.d("ChauNB day","1 " + currentDate);
         } else {
             Date nextDay = CommonUtils.getNextDay(CommonUtils.convertStringToDate(currentDate));
             currentDate = dateFormat.format(nextDay);
-            Log.d("DuyenTB day",day + " " + currentDate);
+            Log.d("ChauNB day",day + " " + currentDate);
 
         }
         tourDay = "Ngày " + day + ", " + currentDate;
@@ -104,6 +124,49 @@ public class TourDetailAdapter extends RecyclerView.Adapter<TourDetailAdapter.Vi
             }
         });
 
+    }
+
+    private void getDistanceInfo(ViewHolder viewHolder) {
+        // http://maps.googleapis.com/maps/api/distancematrix/json?destinations=Atlanta,GA|New+York,NY&origins=Orlando,FL&units=imperial
+        Map<String, String> mapQuery = new HashMap<>();
+        int size = arrDistance.size();
+        StringBuilder destinations = new StringBuilder();
+        if (size == 1) {
+            destinations.append(arrDistance.get(0));
+        } else {
+            for (int i = 0; i < size - 1; i++) {
+                destinations.append(arrDistance.get(i)).append("|");
+            }
+            destinations.append(arrDistance.get(size-1));
+        }
+        Log.d("ChauNB destinations",destinations.toString());
+        mapQuery.put("units", "metric");
+        mapQuery.put("origins", "16.0755258,108.1536513");
+        mapQuery.put("destinations", destinations.toString());
+        mapQuery.put("key", Constant.GOOGLE_API_KEY);
+
+        Call<DistanceResponse> call = mService.getDistanceInfo(mapQuery);
+        call.enqueue(new Callback<DistanceResponse>() {
+            @Override
+            public void onResponse(Call<DistanceResponse> call, Response<DistanceResponse> response) {
+                DistanceResponse result = response.body();
+                ArrayList<Element> arrElement = (ArrayList<Element>) result.getRows().get(0).getElements();
+                totalDistance = 0;
+                for (int i = 0; i < arrElement.size() ; i++) {
+                    totalDistance += arrElement.get(i).getDistance().value;
+                }
+                Log.d("ChauNB totalDistance", totalDistance + " m");
+                String distance = CommonUtils.convertDistance(totalDistance) + " km";
+                Log.d("ChauNB96 distance",""+distance);
+                viewHolder.tv_tour_distance.setText(distance);
+            }
+
+            @Override
+            public void onFailure(Call<DistanceResponse> call, Throwable t) {
+                String distance = "16,67 km";
+                viewHolder.tv_tour_distance.setText(distance);
+            }
+        });
     }
 
     @Override

@@ -90,4 +90,11 @@ public class CommonUtils {
     public static int getScreenHeight() {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
+
+    public static String convertDistance(int distane) {
+        DecimalFormat df2 = new DecimalFormat( "#,###,###,##0.00" );
+        double km = 1.0*(distane/1000);
+
+        return df2.format(km);
+    }
 }

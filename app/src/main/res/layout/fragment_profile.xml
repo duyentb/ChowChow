@@ -78,6 +78,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Tên đăng nhập"
                             android:imeOptions="actionNext"
+                            android:focusableInTouchMode="true"
                             android:enabled="false"/>
 
                     </android.support.design.widget.TextInputLayout>
@@ -92,6 +93,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Email"
                             android:imeOptions="actionNext"
+                            android:focusableInTouchMode="true"
                             android:inputType="textEmailAddress" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -106,6 +108,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Họ tên"
                             android:imeOptions="actionNext"
+                            android:focusableInTouchMode="true"
                             android:inputType="text" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -118,6 +121,7 @@
                             android:id="@+id/input_phone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:focusableInTouchMode="true"
                             android:hint="Số điện thoại"
                             android:imeOptions="actionNext"
                             android:inputType="phone" />
@@ -133,6 +137,7 @@
                             android:id="@+id/input_password"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:focusableInTouchMode="true"
                             android:hint="Mật khẩu"
                             android:imeOptions="actionNext"
                             android:inputType="textPassword" />
